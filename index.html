@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lootnix | Loja Gamer</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090b0f;color:#f5f5f5;font-family:Arial,sans-serif}
+header{padding:22px 7%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #272c35}
+.logo{font-size:28px;font-weight:900}.logo span{color:#b7f34a}
+header a{color:#b7f34a;text-decoration:none}
+main{padding:45px 7%}
+.hero{padding:45px 0}
+.hero small{color:#b7f34a;letter-spacing:3px}
+h1{font-size:clamp(36px,6vw,64px);margin:15px 0}
+p{color:#a7adba;line-height:1.6}
+input,select{background:#171b24;color:white;border:1px solid #343b49;padding:13px;border-radius:8px}
+input{width:65%;max-width:450px}
+#categorias{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0}
+button{background:#b7f34a;color:#10140a;border:0;border-radius:8px;padding:11px 14px;font-weight:bold;cursor:pointer}
+#categorias button{background:#1a202b;color:white}
+#categorias button.active{background:#b7f34a;color:#10140a}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:16px;margin:25px 0}
+.card{background:#141923;border:1px solid #2b3240;border-radius:13px;overflow:hidden;padding-bottom:16px}
+.art{height:125px;background:linear-gradient(135deg,#28371c,#191b29);display:grid;place-items:center;color:#b7f34a;font-size:35px}
+.card h3,.card p,.card .price,.card button{margin-left:15px;margin-right:15px}
+.card h3{min-height:38px;font-size:17px}
+.price{font-size:22px;font-weight:bold}
+.tag{color:#b7f34a;font-size:11px;text-transform:uppercase}
+.card button{width:calc(100% - 30px);margin-top:10px}
+footer{padding:25px 7%;border-top:1px solid #272c35;color:#8e96a5;font-size:13px}
+#detalhe{background:#141923;border:1px solid #2b3240;padding:25px;border-radius:14px;margin:25px 0}
+.escondido{display:none}
+@media(max-width:600px){header{padding:18px 5%}main{padding:25px 5%}input{width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><span>LOOT</span>NIX</div>
+  <a href="#catalogo">Explorar jogos ↓</a>
+</header>
+<main>
+  <section class="hero">
+    <small>SUA LOJA GAMER</small>
+    <h1>Seu próximo jogo<br><span style="color:#b7f34a">está aqui.</span></h1>
+    <p>Explore o catálogo Lootnix e encontre sua próxima aventura.</p>
+    <input id="busca" placeholder="Pesquisar jogos..." oninput="renderizar()">
+  </section>
+  <section id="catalogo">
+    <h2>Explorar catálogo</h2>
+    <div id="categorias"></div>
+    <div id="jogos" class="grid"></div>
+  </section>
+  <section id="detalhe" class="escondido"></section>
+</main>
+<footer>
+  <strong style="color:white">LOOTNIX</strong>
+  <p>Catálogo demonstrativo. Confirme preços, plataforma, região e disponibilidade antes da compra. Pagamentos e entregas ainda não estão integrados.</p>
+  © 2026 Lootnix
+</footer>
+<script>
+const lista=[
+["Red Dead Redemption 2","Ação e aventura",20.59,"Aventura de mundo aberto no Velho Oeste."],
+["Cyberpunk 2077","RPG",20.59,"RPG de ação em um futuro distópico."],
+["Forza Horizon 5","Corrida",15.59,"Corridas em mundo aberto."],
+["God of War","Ação e aventura",15.59,"Aventura de ação inspirada na mitologia nórdica."],
+["The Witcher 3: Wild Hunt","RPG",15.59,"RPG de fantasia com grandes aventuras."],
+["Elden Ring","RPG",20.59,"RPG de ação em um mundo de fantasia."],
+["Hogwarts Legacy","Ação e aventura",15.59,"Aventura em um mundo mágico."],
+["Resident Evil 4","Terror",15.59,"Ação e sobrevivência em uma experiência de horror."],
+["Black Myth: Wukong","Ação e aventura",20.59,"Aventura de ação inspirada na mitologia chinesa."],
+["Ghost of Tsushima Director's Cut","Ação e aventura",15.59,"Aventura de samurai em mundo aberto."],
+["Days Gone","Ação e aventura",15.59,"Sobrevivência em um mundo perigoso."],
+["Marvel's Spider-Man Remastered","Ação e aventura",20.59,"Aventura protagonizada pelo Homem-Aranha."],
+["Euro Truck Simulator 2","Simulação",15.59,"Simulador de caminhões."],
+["TEKKEN 8","Luta",15.59,"Jogo de luta com diversos personagens."],
+["Ready or Not","Tiro",15.59,"Jogo tático de operações policiais."],
+["NBA 2K27","Esportes",null,"Preço de referência pendente de confirmação."],
+["Forza Horizon 6","Corrida",null,"Preço de referência pendente de confirmação."]
+];
+let categoria="Todos";
+const dinheiro=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+function preco(g){return g[2]===null?"Preço em atualização":dinheiro(Math.round(g[2]*2*1.12*100)/100)}
+function categorias(){
+ let cats=["Todos",...new Set(lista.map(g=>g[1]))];
+ document.getElementById("categorias").innerHTML=cats.map(c=>`<button class="${categoria===c?"active":""}" onclick="categoria='${c}';categorias();renderizar()">${c}</button>`).join("");
+}
+function renderizar(){
+ let q=document.getElementById("busca").value.toLowerCase();
+ let jogos=lista.filter(g=>(categoria==="Todos"||g[1]===categoria)&&g[0].toLowerCase().includes(q));
+ document.getElementById("jogos").innerHTML=jogos.map((g,i)=>`
+ <article class="card">
+ <div class="art">✦</div>
+ <p class="tag">${g[1]}</p><h3>${g[0]}</h3>
+ <div class="price">${preco(g)}</div>
+ <button onclick="abrir(${lista.indexOf(g)})">Ver detalhes</button>
+ </article>`).join("");
+}
+function abrir(i){
+ let g=lista[i],d=document.getElementById("detalhe");
+ d.classList.remove("escondido");
+ d.innerHTML=`<button onclick="document.getElementById('detalhe').classList.add('escondido')">← Voltar</button>
+ <p class="tag">${g[1]}</p><h2>${g[0]}</h2><div class="price">${preco(g)}</div>
+ <p>${g[3]}</p><h3>Antes de comprar</h3>
+ <p>Confirme a plataforma, região, versão e disponibilidade do produto antes de efetuar a compra.</p>
+ <p>Pagamento e entrega ainda não estão disponíveis neste protótipo.</p>`;
+ d.scrollIntoView({behavior:"smooth"});
+}
+categorias();renderizar();
+</script>
+</body>
+</html>
