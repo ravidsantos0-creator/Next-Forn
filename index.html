@@ -3,306 +3,399 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Next Forn — Jogos Digitais</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Next Forn | Loja Gamer</title>
+<meta name="description" content="Jogos digitais para PC na Next Forn. Confira o catálogo e consulte as condições de ativação antes de comprar.">
 <style>
-:root{--g:#b7f34a;--bg:#080a08;--card:#121611;--muted:#a0a69b}
+:root{--bg:#090b0a;--panel:#111511;--panel2:#171c17;--green:#b7f34a;--text:#f5f7f2;--muted:#a0a89c;--border:#283027}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:100px}
-body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
-header{position:sticky;top:0;z-index:5;background:#080a08ed;border-bottom:1px solid #283020;padding:16px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.logo{font-size:24px;font-weight:900}.logo span{color:var(--g)}
-button{cursor:pointer;border:0;border-radius:8px;padding:12px;font-weight:bold}
-.green{background:var(--g);color:#10130a}
-main{max-width:1300px;width:92%;margin:auto}
-.hero{padding:45px 0 20px}
-.tag{color:var(--g);font-size:12px;letter-spacing:2px;font-weight:bold}
-h1{font-size:clamp(34px,6vw,62px);margin:15px 0}
-h1 span{color:var(--g)}
-p{color:var(--muted);line-height:1.6}
-.tools{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}
-input,select{background:#121611;color:white;border:1px solid #30392b;padding:13px;border-radius:8px}
-#q{flex:1;min-width:190px}
-.categories{display:flex;gap:8px;flex-wrap:wrap}
-.categories button{background:#171c14;color:white;border:1px solid #30392b}
-.categories button.selected{border-color:var(--g);color:var(--g)}
-.heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:25px 0 18px}
-.catalog-section{margin:34px 0 50px;scroll-margin-top:100px}
-.catalog-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px;border-bottom:1px solid #283020;padding-bottom:12px}
-.catalog-title h2{font-size:23px;margin:0}
-.catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:15px}
-.product{background:var(--card);border:1px solid #252c21;border-radius:12px;overflow:hidden;transition:transform .15s,border-color .15s}
-.product:hover{transform:translateY(-3px);border-color:#657d39}
-.product img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:#1a2116}
-.info{padding:12px}
-.info h3{font-size:14px;min-height:35px;margin:8px 0}
-.small{font-size:12px;color:var(--muted)}
-.price{color:var(--g);font-size:21px;font-weight:bold;margin:13px 0}
-.info button{width:100%}
-footer{border-top:1px solid #293024;padding:28px 5%;color:var(--muted);font-size:13px;line-height:1.7;margin-top:30px}
-#overlay{display:none;position:fixed;inset:0;background:#000b;z-index:8;justify-content:flex-end}
-#overlay.open{display:flex}
-.drawer{width:min(420px,100%);height:100%;overflow:auto;background:#10140e;padding:22px}
-.line{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:14px 0;border-bottom:1px solid #30392b}
-@media(max-width:500px){
- .catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
- .info{padding:9px}.info h3{font-size:13px}
- header{padding:13px 4%}.logo{font-size:21px}
-}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:20;background:#0b0e0beF;backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.top{max-width:1250px;margin:auto;padding:17px 20px;display:flex;align-items:center;gap:20px}
+.logo{font-size:25px;font-weight:900;letter-spacing:-1px;white-space:nowrap}
+.logo span{color:var(--green)}
+.search{flex:1;min-width:100px;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:white;outline:none}
+.search:focus{border-color:var(--green)}
+.cartbtn,.primary{background:var(--green);color:#111;border:0;border-radius:9px;padding:12px 16px;font-weight:800}
+.hero{max-width:1250px;margin:28px auto 24px;padding:45px 25px;border:1px solid #35412c;border-radius:20px;background:radial-gradient(ellipse at 85% 15%,#334b1d 0,transparent 45%),linear-gradient(120deg,#171e13,#0d100d)}
+.hero small{color:var(--green);font-weight:800;letter-spacing:2px}
+.hero h1{font-size:clamp(32px,6vw,58px);line-height:1.03;max-width:680px;margin:15px 0}
+.hero p{color:#c3cbbb;max-width:560px;line-height:1.7}
+.wrap{max-width:1250px;margin:auto;padding:0 20px 50px}
+.categories{display:flex;gap:9px;overflow:auto;padding:8px 0 22px}
+.cat{flex-shrink:0;border:1px solid var(--border);background:var(--panel);color:#dce3d7;padding:10px 14px;border-radius:30px}
+.cat.active,.cat:hover{background:var(--green);color:#10140c;border-color:var(--green)}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:14px 0 20px}
+.sectionhead h2{margin:0;font-size:24px}
+#sort{background:var(--panel);border:1px solid var(--border);color:white;padding:10px;border-radius:9px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.product{background:var(--panel);border:1px solid var(--border);border-radius:13px;overflow:hidden;transition:.2s;min-width:0}
+.product:hover{transform:translateY(-3px);border-color:#617747}
+.cover{height:150px;background:linear-gradient(135deg,#293323,#111);display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;color:#e8f5d9;font-size:19px;font-weight:900;cursor:pointer;position:relative}
+.cover:after{content:"NEXT FORN";position:absolute;bottom:8px;right:9px;font-size:9px;letter-spacing:2px;color:#ffffff70}
+.productbody{padding:14px}
+.tag{display:inline-block;font-size:11px;color:var(--green);background:#28341d;padding:5px 7px;border-radius:5px;margin-bottom:9px}
+.product h3{font-size:15px;line-height:1.4;min-height:42px;margin:0 0 8px}
+.region{font-size:11px;color:var(--muted);margin:9px 0}
+.price{font-size:22px;font-weight:900;color:var(--green)}
+.oldprice{font-size:12px;color:var(--muted);text-decoration:line-through;margin-left:5px}
+.actions{display:flex;gap:7px;margin-top:12px}
+.actions button{flex:1;padding:10px 6px;border-radius:8px;font-size:12px;font-weight:800}
+.detailsbtn{background:transparent;color:white;border:1px solid var(--border)}
+.addbtn{background:var(--green);color:#111;border:0}
+footer{border-top:1px solid var(--border);padding:28px 20px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8}
+.overlay{display:none;position:fixed;inset:0;background:#000c;z-index:40;justify-content:center;align-items:center;padding:15px}
+.overlay.show{display:flex}
+.drawer{width:min(760px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px}
+.close{float:right;background:#252c23;color:white;border:0;border-radius:8px;padding:9px 12px}
+.detailcover{background:linear-gradient(135deg,#26351e,#111);padding:40px 20px;border-radius:12px;margin:18px 0;text-align:center;font-size:27px;font-weight:900}
+.detailprice{font-size:32px;color:var(--green);font-weight:900}
+.info{border:1px solid var(--border);background:#0d100d;padding:14px;border-radius:10px;margin:10px 0;line-height:1.6;color:#d2d9cc}
+.info h3{color:var(--green);font-size:15px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}
+.cartrow{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)}
+.cartrow button{background:#2a3027;color:white;border:0;border-radius:7px;padding:7px}
+.total{font-size:23px;font-weight:900;margin:20px 0;color:var(--green)}
+.empty{padding:40px;text-align:center;color:var(--muted);grid-column:1/-1}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){.top{gap:9px;flex-wrap:wrap}.logo{font-size:21px}.search{order:3;flex-basis:100%}.hero{margin:15px 12px;padding:28px 19px}.wrap{padding:0 12px 35px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cover{height:125px;font-size:16px}.productbody{padding:10px}.product h3{font-size:13px}.price{font-size:19px}.actions{flex-direction:column}.sectionhead h2{font-size:20px}}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">NEXT <span>FORN</span></div>
-  <button class="green" onclick="cartOpen(true)">Carrinho (<span id="qty">0</span>)</button>
+  <div class="top">
+    <div class="logo">NEXT <span>FORN</span></div>
+    <input id="search" class="search" placeholder="Buscar jogo..." aria-label="Buscar jogo">
+    <button class="cartbtn" onclick="openCart()">🛒 Carrinho <span id="cartCount">0</span></button>
+  </div>
 </header>
 
-<main>
 <section class="hero">
-  <div class="tag">NEXT LEVEL GAMING</div>
-  <h1>TEU PRÓXIMO JOGO.<br><span>TEU PRÓXIMO NÍVEL.</span></h1>
-  <p>Encontra teu próximo game por categoria.</p>
-  <div class="tools">
-    <input id="q" placeholder="Pesquisar jogo..." oninput="render()">
-    <select id="sort" onchange="render()">
-      <option value="default">Em destaque</option>
+  <small>SUA LOJA GAMER</small>
+  <h1>Sua próxima aventura começa aqui.</h1>
+  <p>Explore nosso catálogo de jogos digitais para PC. Consulte os detalhes, a edição e as condições de ativação antes de finalizar seu pedido.</p>
+  <button class="primary" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">EXPLORAR JOGOS ↓</button>
+</section>
+
+<main class="wrap" id="catalogo">
+  <nav class="categories" id="categories"></nav>
+  <div class="sectionhead">
+    <h2 id="sectionTitle">Todos os jogos</h2>
+    <select id="sort" aria-label="Ordenar jogos">
+      <option value="featured">Em destaque</option>
       <option value="low">Menor preço</option>
       <option value="high">Maior preço</option>
       <option value="az">Nome A–Z</option>
     </select>
   </div>
-  <div id="cats" class="categories"></div>
-</section>
-
-<div class="heading">
-  <h2>Catálogo de jogos</h2>
-  <span id="count" class="small"></span>
-</div>
-<div id="products"></div>
+  <div class="grid" id="products"></div>
 </main>
 
 <footer>
-<strong style="color:#b7f34a">NEXT FORN</strong><br>
-Jogos digitais para PC. Confira a plataforma, a disponibilidade e a região de ativação antes de pagar. Os preços precisam ser confirmados pela loja e pelo fornecedor. Jogos gratuitos são identificados como gratuitos.
+  <strong style="color:var(--green)">NEXT FORN</strong><br>
+  Loja independente de produtos digitais. Next Forn não é afiliada à Steam nem à STM Store.<br>
+  Antes de comprar, confirme a região da chave, a edição, a disponibilidade e as condições de entrega.
 </footer>
 
-<div id="overlay" onclick="if(event.target===this)cartOpen(false)">
- <aside class="drawer">
-  <div class="heading"><h2>Meu carrinho</h2><button onclick="cartOpen(false)">Fechar ✕</button></div>
-  <div id="items"></div>
-  <h3>Total: <span id="total" style="color:#b7f34a">R$ 0,00</span></h3>
-  <button class="green" style="width:100%" onclick="checkout()">Fazer pedido pelo WhatsApp</button>
-  <p class="small">O pedido será enviado para confirmação. O pagamento deve ser combinado com a loja.</p>
- </aside>
+<div class="overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
+  <div class="drawer">
+    <button class="close" onclick="closeDetail()">Fechar ✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<div class="overlay" id="cartOverlay" onclick="if(event.target===this)closeCart()">
+  <div class="drawer">
+    <button class="close" onclick="closeCart()">Fechar ✕</button>
+    <h2>Seu carrinho</h2>
+    <div id="cartItems"></div>
+    <div class="total" id="cartTotal">Total: R$ 0,00</div>
+    <p class="muted">O pedido será enviado pelo WhatsApp para confirmação. Este site ainda não processa pagamentos nem entrega chaves automaticamente.</p>
+    <button class="primary" style="width:100%" onclick="checkout()">CONTINUAR PELO WHATSAPP</button>
+  </div>
 </div>
 
 <script>
-const WHATSAPP = "55SEUNUMEROAQUI";
+/*
+  PREÇO: preço promocional exibido pela STM × 2 × 1,12.
+  O cálculo abaixo equivale a multiplicar por 2,24.
+  Atualize o campo base quando o preço da STM mudar.
+*/
+const MULTIPLICADOR = 2.24;
+const WHATSAPP = "5521969315304";
+const moeda = n => n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const arredondar = n => Math.round((n + Number.EPSILON)*100)/100;
 
-const games = [
-{n:"Resident Evil 2",c:"Terror",p:29.90,id:883710},
-{n:"Resident Evil 3",c:"Terror",p:29.90,id:952060},
-{n:"Resident Evil 4",c:"Terror",p:39.90,id:2050650},
-{n:"Resident Evil 7 Biohazard",c:"Terror",p:29.90,id:418370},
-{n:"Resident Evil Village",c:"Terror",p:39.90,id:1196590},
-{n:"Outlast",c:"Terror",p:19.90,id:238320},
-{n:"Outlast 2",c:"Terror",p:19.90,id:414700},
-{n:"Phasmophobia",c:"Terror",p:29.90,id:739630},
-{n:"Dead by Daylight",c:"Terror",p:29.90,id:381210},
-{n:"The Forest",c:"Terror",p:19.90,id:242760},
-{n:"Sons Of The Forest",c:"Terror",p:39.90,id:1326470},
-{n:"Dying Light",c:"Terror",p:19.90,id:239140},
-{n:"Dying Light 2",c:"Terror",p:39.90,id:534380},
-{n:"Lethal Company",c:"Terror",p:19.90,id:1966720},
-{n:"The Evil Within",c:"Terror",p:29.90,id:268050},
-{n:"The Evil Within 2",c:"Terror",p:29.90,id:601430},
-{n:"Amnesia: The Dark Descent",c:"Terror",p:19.90,id:57300},
-{n:"Amnesia: The Bunker",c:"Terror",p:29.90,id:1944430},
-{n:"Little Nightmares",c:"Terror",p:19.90,id:424840},
-{n:"Little Nightmares II",c:"Terror",p:29.90,id:860510},
-
-{n:"The Witcher 3: Wild Hunt",c:"RPG",p:29.90,id:292030},
-{n:"Elden Ring",c:"RPG",p:49.90,id:1245620},
-{n:"Baldur's Gate 3",c:"RPG",p:49.90,id:1086940},
-{n:"Cyberpunk 2077",c:"RPG",p:39.90,id:1091500},
-{n:"Hogwarts Legacy",c:"RPG",p:39.90,id:990080},
-{n:"Lies of P",c:"RPG",p:29.90,id:1627720},
-{n:"Skyrim Special Edition",c:"RPG",p:29.90,id:489830},
-{n:"Fallout 4",c:"RPG",p:29.90,id:377160},
-{n:"Fallout: New Vegas",c:"RPG",p:19.90,id:22380},
-{n:"Monster Hunter: World",c:"RPG",p:39.90,id:582010},
-{n:"Kingdom Come: Deliverance",c:"RPG",p:29.90,id:379430},
-{n:"Path of Exile",c:"RPG",p:0,id:238960},
-{n:"Dark Souls III",c:"RPG",p:39.90,id:374320},
-{n:"Dragon's Dogma 2",c:"RPG",p:49.90,id:2054970},
-{n:"Final Fantasy VII Remake Intergrade",c:"RPG",p:49.90,id:1462040},
-{n:"Persona 5 Royal",c:"RPG",p:39.90,id:1687950},
-{n:"Diablo IV",c:"RPG",p:49.90,id:2344520},
-
-{n:"Red Dead Redemption 2",c:"Ação e Aventura",p:39.90,id:1174180},
-{n:"Grand Theft Auto V Enhanced",c:"Ação e Aventura",p:39.90,id:3240220},
-{n:"Black Myth: Wukong",c:"Ação e Aventura",p:39.90,id:2358720},
-{n:"Ghost of Tsushima Director's Cut",c:"Ação e Aventura",p:39.90,id:2215430},
-{n:"God of War",c:"Ação e Aventura",p:39.90,id:1593500},
-{n:"God of War Ragnarök",c:"Ação e Aventura",p:49.90,id:2322010},
-{n:"Marvel's Spider-Man Remastered",c:"Ação e Aventura",p:39.90,id:1817070},
-{n:"Marvel's Spider-Man: Miles Morales",c:"Ação e Aventura",p:29.90,id:1817190},
-{n:"UNCHARTED: Legacy of Thieves",c:"Ação e Aventura",p:39.90,id:1659420},
-{n:"Days Gone",c:"Ação e Aventura",p:29.90,id:1259420},
-{n:"Stray",c:"Ação e Aventura",p:29.90,id:1332010},
-{n:"Horizon Zero Dawn Remastered",c:"Ação e Aventura",p:39.90,id:2561580},
-{n:"Tomb Raider",c:"Ação e Aventura",p:19.90,id:203160},
-{n:"Rise of the Tomb Raider",c:"Ação e Aventura",p:29.90,id:391220},
-{n:"Devil May Cry 5",c:"Ação e Aventura",p:29.90,id:601150},
-{n:"Mafia: Definitive Edition",c:"Ação e Aventura",p:29.90,id:1030840},
-{n:"Control Ultimate Edition",c:"Ação e Aventura",p:29.90,id:870780},
-{n:"It Takes Two",c:"Ação e Aventura",p:29.90,id:1426210},
-{n:"Sekiro: Shadows Die Twice",c:"Ação e Aventura",p:39.90,id:814380},
-{n:"Batman: Arkham Knight",c:"Ação e Aventura",p:19.90,id:208650},
-
-{n:"Counter-Strike 2",c:"Tiro / FPS",p:0,id:730},
-{n:"Apex Legends",c:"Tiro / FPS",p:0,id:1172470},
-{n:"PUBG: Battlegrounds",c:"Tiro / FPS",p:0,id:578080},
-{n:"Tom Clancy's Rainbow Six Siege",c:"Tiro / FPS",p:29.90,id:359550},
-{n:"DOOM Eternal",c:"Tiro / FPS",p:29.90,id:782330},
-{n:"Titanfall 2",c:"Tiro / FPS",p:19.90,id:1237970},
-{n:"Halo: The Master Chief Collection",c:"Tiro / FPS",p:39.90,id:976730},
-{n:"Ready or Not",c:"Tiro / FPS",p:39.90,id:1144200},
-{n:"Battlefield V",c:"Tiro / FPS",p:29.90,id:1238810},
-{n:"Call of Duty: Black Ops III",c:"Tiro / FPS",p:39.90,id:311210},
-{n:"Borderlands 3",c:"Tiro / FPS",p:29.90,id:397540},
-{n:"Warframe",c:"Tiro / FPS",p:0,id:230410},
-{n:"Deep Rock Galactic",c:"Tiro / FPS",p:29.90,id:548430},
-{n:"Left 4 Dead 2",c:"Tiro / FPS",p:19.90,id:550},
-{n:"Payday 2",c:"Tiro / FPS",p:19.90,id:218620},
-
-{n:"Forza Horizon 5",c:"Corrida",p:49.90,id:1551360},
-{n:"Forza Horizon 4",c:"Corrida",p:39.90,id:1293830},
-{n:"Need for Speed Heat",c:"Corrida",p:29.90,id:1222680},
-{n:"Assetto Corsa",c:"Corrida",p:19.90,id:244210},
-{n:"DiRT Rally 2.0",c:"Corrida",p:29.90,id:690790},
-{n:"BeamNG.drive",c:"Corrida",p:39.90,id:284160},
-{n:"CarX Drift Racing Online",c:"Corrida",p:19.90,id:635260},
-{n:"Euro Truck Simulator 2",c:"Corrida",p:19.90,id:227300},
-{n:"Need for Speed Unbound",c:"Corrida",p:39.90,id:1846380},
-{n:"The Crew Motorfest",c:"Corrida",p:49.90,id:2698940},
-
-{n:"NBA 2K25",c:"Esportes",p:39.90,id:2878980},
-{n:"eFootball",c:"Esportes",p:0,id:1665460},
-{n:"WWE 2K24",c:"Esportes",p:39.90,id:2315690},
-{n:"Football Manager 2024",c:"Esportes",p:39.90,id:2252570},
-{n:"Riders Republic",c:"Esportes",p:39.90,id:2290180},
-
-{n:"The Sims 4",c:"Simulação",p:0,id:1222670},
-{n:"Project Zomboid",c:"Simulação",p:29.90,id:108600},
-{n:"Schedule I",c:"Simulação",p:29.90,id:3164500},
-{n:"PowerWash Simulator",c:"Simulação",p:29.90,id:1290000},
-{n:"House Flipper",c:"Simulação",p:29.90,id:613100},
-{n:"Planet Zoo",c:"Simulação",p:39.90,id:703080},
-{n:"Satisfactory",c:"Simulação",p:39.90,id:526870},
-{n:"Oxygen Not Included",c:"Simulação",p:29.90,id:457140},
-{n:"Kerbal Space Program",c:"Simulação",p:29.90,id:220200},
-{n:"Two Point Hospital",c:"Simulação",p:29.90,id:535930},
-
-{n:"Hollow Knight",c:"Indie",p:19.90,id:367520},
-{n:"Hollow Knight: Silksong",c:"Indie",p:29.90,id:1030300},
-{n:"Cuphead",c:"Indie",p:29.90,id:268910},
-{n:"Celeste",c:"Indie",p:19.90,id:504230},
-{n:"Dead Cells",c:"Indie",p:29.90,id:588650},
-{n:"Hades",c:"Indie",p:29.90,id:1145360},
-{n:"Hades II",c:"Indie",p:39.90,id:1145350},
-{n:"Stardew Valley",c:"Indie",p:19.90,id:413150},
-{n:"Terraria",c:"Indie",p:19.90,id:105600},
-{n:"Undertale",c:"Indie",p:19.90,id:391540},
-{n:"Among Us",c:"Indie",p:19.90,id:945360},
-{n:"Balatro",c:"Indie",p:19.90,id:2379780},
-{n:"Vampire Survivors",c:"Indie",p:9.90,id:1794680},
-{n:"Dave the Diver",c:"Indie",p:29.90,id:1868140},
-{n:"Raft",c:"Indie",p:29.90,id:648800},
-
-{n:"Age of Empires IV",c:"Estratégia",p:39.90,id:1466860},
-{n:"Civilization VI",c:"Estratégia",p:29.90,id:289070},
-{n:"RimWorld",c:"Estratégia",p:39.90,id:294100},
-{n:"Factorio",c:"Estratégia",p:39.90,id:427520},
-{n:"Cities: Skylines",c:"Estratégia",p:29.90,id:255710},
-{n:"Total War: WARHAMMER III",c:"Estratégia",p:49.90,id:1142710},
-{n:"Frostpunk",c:"Estratégia",p:29.90,id:323190},
-{n:"Crusader Kings III",c:"Estratégia",p:39.90,id:1158310},
-{n:"Stellaris",c:"Estratégia",p:39.90,id:281990}
+const rawGames = [
+["NBA 2K27","Esportes",26.59,"Basquete e esporte."],
+["Forza Horizon 6","Corrida",26.59,"Corridas e exploração automotiva."],
+["Assassin's Creed Black Flag Resynced","Ação e Aventura",26.59,"Aventura de ação no universo Assassin's Creed."],
+["LEGO Batman: Legacy of the Dark Knight","LEGO",26.59,"Aventura LEGO inspirada no Batman."],
+["Resident Evil Requiem","Terror",26.59,"Terror e sobrevivência."],
+["Crimson Desert","RPG",26.59,"Aventura de ação em um mundo de fantasia."],
+["007 First Light","Ação e Aventura",26.59,"Aventura de espionagem."],
+["Black Myth: Wukong","Ação e Aventura",20.59,"Ação e aventura inspirada na mitologia chinesa."],
+["Red Dead Redemption 2","Ação e Aventura",20.59,"Aventura de mundo aberto no Velho Oeste."],
+["Silent Hill: Townfall","Terror",20.59,"Terror psicológico."],
+["CONTROL Resonant","RPG",20.59,"Aventura sobrenatural com combate e exploração."],
+["Assassin's Creed Shadows","Ação e Aventura",20.59,"Aventura histórica de ação."],
+["UNCHARTED: Coleção Legado dos Ladrões","Ação e Aventura",20.59,"Coleção de aventuras cinematográficas."],
+["Resonance: A Plague Tale Legacy","Ação e Aventura",15.59,"Aventura narrativa."],
+["GTA: San Andreas Definitive Edition","Ação e Aventura",15.59,"Mundo aberto e ação."],
+["Ghost of Tsushima Director's Cut","Ação e Aventura",15.59,"Aventura de samurai em mundo aberto."],
+["Days Gone","Ação e Aventura",15.59,"Sobrevivência em um mundo pós-apocalíptico."],
+["The Witcher 3: Wild Hunt","RPG",15.59,"RPG de fantasia com exploração e escolhas."],
+["Avatar: Frontiers of Pandora","Ação e Aventura",15.59,"Aventura em mundo aberto em Pandora."],
+["Lies of P","RPG",15.59,"RPG de ação inspirado na história de Pinóquio."],
+["Death Stranding Director's Cut","Ação e Aventura",15.59,"Aventura focada em exploração e conexão."],
+["Assassin's Creed Valhalla","Ação e Aventura",15.59,"Aventura histórica na era viking."],
+["Bully: Scholarship Edition","Ação e Aventura",15.59,"Aventura em um ambiente escolar."],
+["A Plague Tale: Requiem","Ação e Aventura",15.59,"Aventura narrativa de ação e furtividade."],
+["Poppy Playtime - Todos Capítulos","Terror",15.59,"Terror e quebra-cabeças em uma fábrica."],
+["GTA: Vice City Definitive Edition","Ação e Aventura",15.59,"Mundo aberto inspirado nos anos 1980."],
+["GTA III Definitive Edition","Ação e Aventura",15.59,"Aventura clássica de mundo aberto."],
+["Mafia: Definitive Edition","Ação e Aventura",15.59,"Aventura criminal com narrativa."],
+["Rise of the Ronin","Ação e Aventura",15.59,"Combate e aventura histórica."],
+["Mafia II: Definitive Edition","Ação e Aventura",15.59,"Aventura criminal em mundo aberto."],
+["Mafia III: Definitive Edition","Ação e Aventura",15.59,"Ação em um mundo de crime organizado."],
+["Shadow of the Tomb Raider Definitive Edition","Ação e Aventura",15.59,"Exploração, enigmas e aventura."],
+["Rise of the Tomb Raider","Ação e Aventura",15.59,"Aventura com exploração e sobrevivência."],
+["Assassin's Creed Origins","Ação e Aventura",15.59,"Aventura histórica no Egito."],
+["Assassin's Creed Odyssey","RPG",15.59,"RPG de ação na Grécia antiga."],
+["Assassin's Creed Unity","Ação e Aventura",15.59,"Aventura histórica em Paris."],
+["Assassin's Creed IV Black Flag","Ação e Aventura",15.59,"Aventura pirata em mundo aberto."],
+["Assassin's Creed Syndicate","Ação e Aventura",15.59,"Aventura na Londres industrial."],
+["Assassin's Creed Mirage","Ação e Aventura",15.59,"Aventura de ação e furtividade."],
+["Far Cry 6","Tiro",15.59,"Ação e tiro em mundo aberto."],
+["Far Cry 5","Tiro",15.59,"Aventura de ação e tiro."],
+["Far Cry 4","Tiro",15.59,"Tiro e exploração em mundo aberto."],
+["Far Cry 3","Tiro",15.59,"Aventura de tiro em uma ilha."],
+["Far Cry Primal","Ação e Aventura",15.59,"Sobrevivência em cenário pré-histórico."],
+["Far Cry New Dawn","Tiro",15.59,"Aventura de tiro pós-apocalíptica."],
+["Watch Dogs Legion","Ação e Aventura",15.59,"Ação e tecnologia em mundo aberto."],
+["Batman: Arkham Origins","Ação e Aventura",15.59,"Aventura de ação do Batman."],
+["Batman: Arkham Knight","Ação e Aventura",15.59,"Ação de super-herói em Gotham."],
+["Batman: Arkham City","Ação e Aventura",15.59,"Aventura de ação em Gotham."],
+["Batman: Arkham Asylum","Ação e Aventura",15.59,"Aventura de ação no Asilo Arkham."],
+["Beyond: Two Souls","Ação e Aventura",15.59,"Aventura narrativa interativa."],
+["Crash Bandicoot N. Sane Trilogy","Ação e Aventura",15.59,"Trilogia de plataformas e aventura."],
+["Grounded","Sobrevivência",15.59,"Sobrevivência em um quintal em escala reduzida."],
+["Hi-Fi RUSH","Ação e Aventura",15.59,"Ação rítmica com combate."],
+["Hellblade II: Senua's Saga","Ação e Aventura",15.59,"Aventura cinematográfica."],
+["High On Life","Tiro",15.59,"Tiro em primeira pessoa com humor."],
+["Sifu","Luta",15.59,"Combate corpo a corpo e artes marciais."],
+["Split Fiction","Ação e Aventura",15.59,"Aventura cooperativa."],
+["The Binding of Isaac: Rebirth","Roguelike",15.59,"Ação roguelike com salas geradas."],
+["Ratchet & Clank: Rift Apart","Ação e Aventura",15.59,"Aventura de ação e plataformas."],
+["MiSide","Terror",15.59,"Terror psicológico."],
+["Persona 5 Strikers","RPG",15.59,"RPG de ação no universo Persona."],
+["Ori and the Will of the Wisps","Ação e Aventura",15.59,"Plataforma e exploração."],
+["Kena: Bridge of Spirits","Ação e Aventura",15.59,"Aventura com exploração e combate."],
+["Hellblade: Senua's Sacrifice","Ação e Aventura",15.59,"Aventura narrativa."],
+["Crash Bandicoot 4: It's About Time","Ação e Aventura",15.59,"Plataforma e aventura."],
+["Ghost Recon Wildlands","Tiro",15.59,"Tiro tático em mundo aberto."],
+["Dying Light 2 Stay Human Reloaded Edition","Terror",15.59,"Ação, sobrevivência e parkour."],
+["Oblivion Remastered","RPG",15.59,"RPG de fantasia e exploração."],
+["Five Nights at Freddy's: Security Breach","Terror",15.59,"Terror e sobrevivência."],
+["Stellar Blade","Ação e Aventura",15.59,"Ação e combate."],
+["Horizon Forbidden West Complete Edition","Ação e Aventura",15.59,"Aventura de ação em mundo aberto."],
+["Subnautica","Sobrevivência",15.59,"Exploração e sobrevivência submarina."],
+["Cuphead","Ação e Aventura",15.59,"Plataforma com chefes desafiadores."],
+["Raft","Sobrevivência",15.59,"Sobrevivência e construção no oceano."],
+["Project Zomboid","Sobrevivência",15.59,"Sobrevivência em um apocalipse zumbi."],
+["Schedule I","Simulação",15.59,"Simulação e gerenciamento."],
+["Devil May Cry 5","Ação e Aventura",15.59,"Combate de ação estilizado."],
+["Hollow Knight","Ação e Aventura",15.59,"Exploração e combate em 2D."],
+["PEAK","Aventura",15.59,"Aventura cooperativa de escalada."],
+["Satisfactory","Simulação",15.59,"Construção e automação de fábricas."],
+["Terraria","Aventura",15.59,"Exploração, construção e sobrevivência."],
+["Dispatch","Aventura",15.59,"Aventura narrativa."],
+["Stray","Aventura",15.59,"Aventura exploratória na pele de um gato."],
+["Life is Strange Remastered","Aventura",15.59,"Aventura narrativa com escolhas."],
+["Hades II","Roguelike",15.59,"Ação roguelike mitológica."],
+["GTA IV","Ação e Aventura",15.59,"Aventura de mundo aberto."],
+["ARK: Survival Evolved","Sobrevivência",15.59,"Sobrevivência com dinossauros."],
+["It Takes Two","Aventura",15.59,"Aventura cooperativa para dois jogadores."],
+["Kingdom Come: Deliverance II","RPG",15.59,"RPG histórico."],
+["Bodycam","Tiro",15.59,"Tiro tático em primeira pessoa."],
+["Ready or Not","Tiro",15.59,"Simulação tática de operações policiais."],
+["Call of Duty WWII","Tiro",15.59,"Tiro ambientado na Segunda Guerra."],
+["Call of Duty: Infinite Warfare","Tiro",15.59,"Tiro futurista."],
+["Call of Duty: Ghosts","Tiro",15.59,"Tiro militar."],
+["Call of Duty: Black Ops Cold War","Tiro",15.59,"Tiro de espionagem e ação."],
+["Call of Duty: Black Ops III","Tiro",15.59,"Tiro futurista."],
+["Battlefield V","Tiro",15.59,"Combate em larga escala."],
+["Call of Duty: Black Ops II","Tiro",15.59,"Tiro militar."],
+["Warhammer 40,000: Space Marine 2","Ação e Aventura",15.59,"Combate de ação em ficção científica."],
+["Call of Duty: Advanced Warfare Gold Edition","Tiro",15.59,"Tiro futurista."],
+["Call of Duty: Modern Warfare Remastered","Tiro",15.59,"Versão remasterizada de um clássico de tiro."],
+["Call of Duty 4: Modern Warfare","Tiro",15.59,"Tiro militar."],
+["Call of Duty: Modern Warfare 2 (2009)","Tiro",15.59,"Tiro militar."],
+["S.T.A.L.K.E.R. 2: Heart of Chornobyl","Tiro",15.59,"Tiro e sobrevivência em zona perigosa."],
+["WWE 2K26","Luta",15.59,"Luta livre e modos de competição."],
+["Naruto Shippuden: Ultimate Ninja Storm 4","Luta",15.59,"Combates inspirados no universo Naruto."],
+["Naruto x Boruto Ultimate Ninja Storm Connections","Luta",15.59,"Lutas do universo Naruto e Boruto."],
+["Naruto Shippuden: Ultimate Ninja Storm 3","Luta",15.59,"Jogo de luta e ação."],
+["Naruto Shippuden: Ultimate Ninja Storm 2","Luta",15.59,"Jogo de luta e ação."],
+["Dragon Ball Z: Kakarot","RPG",15.59,"RPG de ação de Dragon Ball."],
+["Dragon Ball FighterZ","Luta",15.59,"Luta em estilo anime."],
+["TEKKEN 8","Luta",15.59,"Jogo de luta competitivo."],
+["GUILTY GEAR -STRIVE-","Luta",15.59,"Luta em estilo anime."],
+["MotoGP 25","Corrida",15.59,"Corrida de motos."],
+["RIDE 6","Corrida",15.59,"Corridas de motocicletas."],
+["NASCAR 25","Corrida",15.59,"Corrida automobilística."],
+["RIDE 5","Corrida",15.59,"Simulação de corrida de motos."],
+["Le Mans Ultimate","Corrida",15.59,"Simulação de automobilismo."],
+["Automobilista 2","Corrida",15.59,"Simulação de corrida."],
+["Forza Motorsport","Corrida",15.59,"Corridas automobilísticas."],
+["Forza Horizon 5","Corrida",15.59,"Corridas em mundo aberto."],
+["Forza Horizon 4","Corrida",15.59,"Corridas em mundo aberto."],
+["BeamNG.drive","Simulação",15.59,"Simulação de condução e física de veículos."],
+["Assetto Corsa Competizione","Corrida",15.59,"Simulação de automobilismo."],
+["Assetto Corsa","Corrida",15.59,"Simulação de corrida."],
+["Tony Hawk's Pro Skater 1 + 2","Esportes",15.59,"Skate e manobras."],
+["Tony Hawk's Pro Skater 3 + 4","Esportes",15.59,"Skate e manobras."],
+["Inazuma Eleven: Victory Road","Esportes",15.59,"RPG e futebol."],
+["NBA 2K23","Esportes",15.59,"Basquete."],
+["NBA 2K22","Esportes",15.59,"Basquete."],
+["LEGO Party!","LEGO",15.59,"Jogo de festa com minijogos."],
+["LEGO Batman: The Videogame","LEGO",15.59,"Aventura LEGO do Batman."],
+["LEGO Batman 2: DC Super Heroes","LEGO",15.59,"Aventura LEGO com heróis da DC."],
+["LEGO Batman 3: Beyond Gotham","LEGO",15.59,"Aventura LEGO no universo DC."],
+["LEGO 2K Drive","LEGO",15.59,"Corridas e construção de veículos."],
+["LEGO City Undercover","LEGO",15.59,"Aventura LEGO em mundo aberto."],
+["LEGO DC Super-Villains","LEGO",15.59,"Aventura com vilões da DC."],
+["LEGO Marvel Super Heroes","LEGO",15.59,"Aventura LEGO com heróis Marvel."],
+["LEGO Marvel Super Heroes 2","LEGO",15.59,"Aventura LEGO com heróis Marvel."],
+["Crusader Kings III","Simulação",15.59,"Estratégia e gerenciamento de dinastias."],
+["Cities: Skylines II","Simulação",15.59,"Construção e gerenciamento de cidades."],
+["Balatro","Estratégia",15.59,"Cartas e estratégia roguelike."],
+["Euro Truck Simulator 2","Simulação",15.59,"Simulação de caminhões."],
+["Farming Simulator 25","Simulação",15.59,"Simulação de agricultura."],
+["Farming Simulator 22","Simulação",15.59,"Simulação de agricultura."],
+["My Summer Car","Simulação",15.59,"Simulação de montagem e manutenção de carro."],
+["Streamer Life Simulator","Simulação",15.59,"Simulação de carreira de streamer."],
+["Streamer Life Simulator 2","Simulação",15.59,"Simulação de carreira de streamer."],
+["RoadCraft","Simulação",15.59,"Simulação de máquinas e reconstrução."],
+["Feed and Grow: Fish","Simulação",15.59,"Simulação aquática."],
+["Resident Evil Collection","Collection",45.49,"Coleção de jogos da franquia Resident Evil."],
+["Marvel's Spider-Man Collection","Collection",28.59,"Coleção de jogos do Spider-Man."],
+["Combo The Last of Us","Collection",20.79,"Combo de jogos The Last of Us."],
+["God of War Collection","Collection",20.79,"Coleção de jogos God of War."],
+["Hollow Knight Collection","Collection",24.99,"Coleção relacionada à franquia Hollow Knight."],
+["Dying Light Collection","Collection",24.99,"Coleção de jogos Dying Light."],
+["Dark Souls Collection","Collection",24.99,"Coleção de jogos Dark Souls."]
 ];
 
-let active = "Todos";
-let cart = [];
-const brl = n => n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const games = rawGames.map((g,i)=>({
+ id:i+1,name:g[0],category:g[1],base:g[2],
+ price:arredondar(g[2]*MULTIPLICADOR),
+ description:g[3],
+ region:"Confirmar com fornecedor",
+ edition:"Confirmar edição exata com o fornecedor",
+ delivery:"Prazo a confirmar antes da compra",
+ warranty:"Consulte a política de garantia da Next Forn",
+ stock:"Consultar disponibilidade"
+}));
 
-function renderCats(){
- const names=["Todos",...new Set(games.map(g=>g.c))];
- document.getElementById("cats").innerHTML=names.map(c=>
- `<button class="${c===active?"selected":""}" onclick="setCategory(${JSON.stringify(c)})">${c}</button>`
+let category = "Todos";
+let cart = [];
+
+function brl(n){return moeda(n)}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+function renderCategories(){
+ const cats=["Todos",...new Set(games.map(g=>g.category))];
+ document.getElementById("categories").innerHTML=cats.map(c=>
+ `<button class="cat ${c===category?"active":""}" onclick="setCategory('${safe(c)}')">${safe(c)}</button>`
  ).join("");
 }
-
-function setCategory(c){
- active=c;
- render();
- const target=c==="Todos"?document.querySelector(".hero"):document.querySelector(`[data-category="${CSS.escape(c)}"]`);
- if(target)target.scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function render(){
- renderCats();
- const q=document.getElementById("q").value.toLowerCase().trim();
+function setCategory(c){category=c;renderCategories();renderProducts()}
+function renderProducts(){
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ let list=games.filter(g=>(category==="Todos"||g.category===category)&&
+ (g.name.toLowerCase().includes(q)||g.category.toLowerCase().includes(q)));
  const sort=document.getElementById("sort").value;
- const categories=[...new Set(games.map(g=>g.c))];
- let count=0;
-
- document.getElementById("products").innerHTML=categories.map(c=>{
-  let arr=games.filter(g=>(active==="Todos"||g.c===active)&&g.c===c&&g.n.toLowerCase().includes(q));
-  if(sort==="low")arr.sort((a,b)=>a.p-b.p);
-  if(sort==="high")arr.sort((a,b)=>b.p-a.p);
-  if(sort==="az")arr.sort((a,b)=>a.n.localeCompare(b.n));
-  count+=arr.length;
-  if(!arr.length)return "";
-  return `<section class="catalog-section" data-category="${c}">
-    <div class="catalog-title"><h2>${c}</h2><span class="small">${arr.length} jogos</span></div>
-    <div class="catalog-grid">${arr.map(g=>`
-      <article class="product">
-        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${g.id}/library_600x900.jpg" alt="${g.n}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x550/111611/b7f34a?text=NEXT+FORN'">
-        <div class="info"><span class="small">${g.c}</span><h3>${g.n}</h3>
-        <div class="small">Steam para PC · Região a confirmar</div>
-        <div class="price">${g.p===0?"Grátis":brl(g.p)}</div>
-        <button class="green" onclick="add(${JSON.stringify(g.n)})">${g.p===0?"Consultar jogo":"Adicionar ao carrinho"}</button></div>
-      </article>`).join("")}</div>
-  </section>`;
- }).join("");
-
- document.getElementById("count").textContent=count+" jogos";
+ if(sort==="low")list.sort((a,b)=>a.price-b.price);
+ if(sort==="high")list.sort((a,b)=>b.price-a.price);
+ if(sort==="az")list.sort((a,b)=>a.name.localeCompare(b.name,"pt-BR"));
+ document.getElementById("sectionTitle").textContent=category==="Todos"?"Todos os jogos":category;
+ document.getElementById("products").innerHTML=list.length?list.map(g=>`
+ <article class="product">
+  <div class="cover" onclick="openDetail(${g.id})">${safe(g.name)}</div>
+  <div class="productbody">
+   <span class="tag">${safe(g.category)}</span>
+   <h3>${safe(g.name)}</h3>
+   <div class="price">${brl(g.price)}</div>
+   <div class="region">🌎 Região: confirmar antes da compra</div>
+   <div class="actions">
+    <button class="detailsbtn" onclick="openDetail(${g.id})">DETALHES</button>
+    <button class="addbtn" onclick="addCart(${g.id})">ADICIONAR</button>
+   </div>
+  </div>
+ </article>`).join(""):`<div class="empty">Nenhum jogo encontrado. Tente outra busca.</div>`;
 }
-
-function add(name){
- const g=games.find(x=>x.n===name);
- if(!g)return;
- if(g.p===0){alert("Este jogo é gratuito na Steam. Não precisa comprá-lo como chave paga.");return;}
- cart.push(g);updateCart();cartOpen(true);
+function findGame(id){return games.find(g=>g.id===Number(id))}
+function openDetail(id){
+ const g=findGame(id);if(!g)return;
+ document.getElementById("detailContent").innerHTML=`
+ <span class="tag">${safe(g.category)}</span>
+ <h1>${safe(g.name)}</h1>
+ <div class="detailcover">${safe(g.name)}</div>
+ <div class="detailprice">${brl(g.price)}</div>
+ <p class="muted">Preço calculado com a fórmula configurada na loja: preço-base STM × 2,24. Confirme o valor atual antes de anunciar.</p>
+ <div class="info"><h3>Sobre o jogo</h3>${safe(g.description)}<br><br>Confira os detalhes oficiais do título e a compatibilidade com seu computador antes de comprar.</div>
+ <div class="info"><h3>Informações do produto</h3>
+ <b>Plataforma:</b> PC / Steam, somente se confirmado na oferta do fornecedor.<br>
+ <b>Edição:</b> ${safe(g.edition)}<br>
+ <b>Região da chave:</b> ${safe(g.region)}<br>
+ <b>Disponibilidade:</b> ${safe(g.stock)}<br>
+ <b>Entrega:</b> ${safe(g.delivery)}<br>
+ <b>Garantia:</b> ${safe(g.warranty)}</div>
+ <div class="info"><h3>Antes de comprar</h3>Não conclua a compra antes de confirmar a região de ativação, o tipo de produto (chave ou conta), a edição, o prazo de entrega e as condições de suporte. Não altere a região da sua conta Steam para ativar uma chave sem verificar as regras oficiais da plataforma.</div>
+ <button class="primary" style="width:100%" onclick="addCart(${g.id});closeDetail()">ADICIONAR AO CARRINHO — ${brl(g.price)}</button>
+ `;
+ document.getElementById("detailOverlay").classList.add("show");
 }
-function removeItem(i){cart.splice(i,1);updateCart();}
+function closeDetail(){document.getElementById("detailOverlay").classList.remove("show")}
+function addCart(id){
+ const g=findGame(id);if(!g)return;
+ const existing=cart.find(x=>x.id===g.id);
+ if(existing)existing.qty++;else cart.push({id:g.id,qty:1});
+ updateCart();
+}
 function updateCart(){
- document.getElementById("qty").textContent=cart.length;
- document.getElementById("items").innerHTML=cart.length?cart.map((g,i)=>
- `<div class="line"><span>${g.n}<br><b>${brl(g.p)}</b></span><button onclick="removeItem(${i})">Remover</button></div>`
- ).join(""):"<p>Teu carrinho está vazio.</p>";
- document.getElementById("total").textContent=brl(cart.reduce((s,g)=>s+g.p,0));
+ document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);
+ const rows=cart.map(item=>{
+ const g=findGame(item.id);
+ return `<div class="cartrow"><div><b>${safe(g.name)}</b><br><span class="muted">${item.qty} × ${brl(g.price)}</span></div><div><b>${brl(g.price*item.qty)}</b><br><button onclick="changeQty(${g.id},-1)">−</button> <button onclick="changeQty(${g.id},1)">+</button> <button onclick="removeCart(${g.id})">Remover</button></div></div>`;
+ }).join("");
+ document.getElementById("cartItems").innerHTML=rows||'<p class="muted">Seu carrinho está vazio.</p>';
+ const total=cart.reduce((s,x)=>s+findGame(x.id).price*x.qty,0);
+ document.getElementById("cartTotal").textContent="Total: "+brl(total);
 }
-function cartOpen(open){document.getElementById("overlay").classList.toggle("open",open);}
+function changeQty(id,n){
+ const item=cart.find(x=>x.id===id);if(!item)return;
+ item.qty+=n;if(item.qty<=0)cart=cart.filter(x=>x.id!==id);
+ updateCart();
+}
+function removeCart(id){cart=cart.filter(x=>x.id!==id);updateCart()}
+function openCart(){updateCart();document.getElementById("cartOverlay").classList.add("show")}
+function closeCart(){document.getElementById("cartOverlay").classList.remove("show")}
 function checkout(){
- if(!cart.length){alert("Adicione um jogo ao carrinho primeiro.");return;}
- if(!/^55\d{10,11}$/.test(WHATSAPP)){alert("Configure o número do WhatsApp no código antes de publicar.");return;}
- const lines=cart.map(g=>`- ${g.n}: ${brl(g.p)}`).join("\n");
- const total=brl(cart.reduce((s,g)=>s+g.p,0));
- const msg=`Olá, Next Forn! Quero consultar a disponibilidade destes jogos:\n${lines}\nTotal anunciado: ${total}\nConfirmem a região de ativação e as condições, por favor.`;
+ if(!cart.length){alert("Seu carrinho está vazio.");return}
+ if(WHATSAPP.includes("SEUNUMERO")){alert("Configure seu número do WhatsApp no código antes de receber pedidos.");return}
+ const lines=cart.map(x=>{const g=findGame(x.id);return `${x.qty}x ${g.name} — ${brl(g.price*x.qty)}`});
+ const total=cart.reduce((s,x)=>s+findGame(x.id).price*x.qty,0);
+ const msg=`Olá, Next Forn! Quero consultar este pedido:\n\n${lines.join("\n")}\n\nTotal estimado: ${brl(total)}\n\nGostaria de confirmar estoque, região de ativação, edição e prazo de entrega.`;
  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
 }
-render();
+document.getElementById("search").addEventListener("input",renderProducts);
+document.getElementById("sort").addEventListener("change",renderProducts);
+renderCategories();
+renderProducts();
 updateCart();
 </script>
 </body>
