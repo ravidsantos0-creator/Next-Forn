@@ -15,71 +15,176 @@ const price=p=>Math.round((p.base*2.24+Number.EPSILON)*100)/100;
 const slug=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').toLowerCase();
 const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fallback=(name)=>'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#182d29"/><stop offset="1" stop-color="#111626"/></linearGradient></defs><rect width="640" height="360" fill="url(#g)"/><circle cx="520" cy="65" r="115" fill="#77f04b" opacity=".13"/><path d="M0 300 L220 180 L340 270 L470 130 L640 250 V360 H0Z" fill="#77f04b" opacity=".10"/><text x="32" y="280" fill="#77f04b" font-family="Arial" font-weight="bold" font-size="18">NEXT FORN • GAMING</text><foreignObject x="32" y="70" width="570" height="170"><div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial,sans-serif;font-weight:900;font-size:34px;line-height:1.1;color:#fff">${escapeHtml(name)}</div></foreignObject></svg>`);
+function coverError(img,name){
+  const current=img.currentSrc||img.src||'';
+  if(!img.dataset.coverRetried){
+    img.dataset.coverRetried='1';
+    const m=current.match(/(?:cdn\.akamai\.steamstatic\.com\/steam\/apps\/|shared\.akamai\.steamstatic\.com\/store_item_assets\/steam\/apps\/)(\d+)\/header\.jpg/);
+    if(m){img.src='https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/'+m[1]+'/header.jpg';return;}
+  }
+  img.onerror=null;img.src=fallback(name);
+}
+window.coverError=coverError;
+
 const STM_IMAGES={
  'Forza Horizon 6':'https://cdn.selltrust.com.br/store/9b676d2d-0dfe-4c78-a054-b7a84fb591fd/product/713103fe-e138-475e-b1be-0a7bbcdd234d.jpg'
 };
-const state={category:'Todos',query:'',cart:[],images:new Map(Object.entries(STM_IMAGES)),details:new Map()};
+const COVER_OVERRIDES={
+ 'LEGO Batman: Legacy of the Dark Knight':'https://cdn.akamai.steamstatic.com/steam/apps/2130130/header.jpg',
+ 'Grand Theft Auto: San Andreas – The Definitive Edition':'https://cdn.akamai.steamstatic.com/steam/apps/1547000/header.jpg',
+ 'Ghost of Tsushima Director’s Cut':'https://cdn.akamai.steamstatic.com/steam/apps/2215430/header.jpg',
+ 'Poppy Playtime - Todos Capítulos':'https://cdn.akamai.steamstatic.com/steam/apps/1721470/header.jpg',
+ 'Sekiro: Shadows Die Twice - GOTY Edition':'https://cdn.akamai.steamstatic.com/steam/apps/814380/header.jpg',
+ 'Horizon Forbidden West Complete Edition':'https://cdn.akamai.steamstatic.com/steam/apps/2420110/header.jpg',
+ 'Sons Of The Forest (Online)':'https://cdn.akamai.steamstatic.com/steam/apps/1326470/header.jpg',
+ 'Little Nightmares Enhanced Edition':'https://cdn.akamai.steamstatic.com/steam/apps/424840/header.jpg',
+ 'Call of Duty: Advanced Warfare - Gold Edition':'https://cdn.akamai.steamstatic.com/steam/apps/209650/header.jpg',
+ 'Forza Horizon 5 (Online)':'https://cdn.akamai.steamstatic.com/steam/apps/1551360/header.jpg',
+ 'PRO EVOLUTION SOCCER 2018':'https://cdn.akamai.steamstatic.com/steam/apps/592580/header.jpg',
+ "Tony Hawk's Pro Skater 1 + 2":'https://cdn.akamai.steamstatic.com/steam/apps/2395210/header.jpg',
+ "Tony Hawk's Pro Skater 3 + 4":'https://cdn.akamai.steamstatic.com/steam/apps/2543260/header.jpg',
+ 'NBA 2K Playgrounds 2':'https://cdn.akamai.steamstatic.com/steam/apps/705040/header.jpg',
+ 'NBA 2K23':'https://cdn.akamai.steamstatic.com/steam/apps/1919590/header.jpg',
+ 'NBA 2K22':'https://cdn.akamai.steamstatic.com/steam/apps/1644960/header.jpg',
+ 'NBA 2K21':'https://cdn.akamai.steamstatic.com/steam/apps/1225330/header.jpg',
+ 'NBA 2K20':'https://cdn.akamai.steamstatic.com/steam/apps/1089350/header.jpg',
+ 'NBA 2K19':'https://cdn.akamai.steamstatic.com/steam/apps/841370/header.jpg',
+ 'NBA 2K18':'https://cdn.akamai.steamstatic.com/steam/apps/577800/header.jpg',
+ 'LEGO 2K Drive':'https://cdn.akamai.steamstatic.com/steam/apps/1451810/header.jpg',
+ 'Resident Evil Collection':'https://cdn.akamai.steamstatic.com/steam/apps/883710/header.jpg',
+ "Marvel's Spider-Man Collection":'https://cdn.akamai.steamstatic.com/steam/apps/1817070/header.jpg',
+ 'Combo The Last of Us':'https://cdn.akamai.steamstatic.com/steam/apps/1888930/header.jpg',
+ 'God of War Collection':'https://cdn.akamai.steamstatic.com/steam/apps/1593500/header.jpg',
+ 'Hollow Knight Collection':'https://cdn.akamai.steamstatic.com/steam/apps/367520/header.jpg',
+ 'Dying Light Collection':'https://cdn.akamai.steamstatic.com/steam/apps/239140/header.jpg',
+ 'Dark Souls Collection':'https://cdn.akamai.steamstatic.com/steam/apps/374320/header.jpg'
+};
+const state={category:'Todos',query:'',cart:[],images:new Map(Object.entries({...STM_IMAGES,...COVER_OVERRIDES})),details:new Map()};
 const categories=['Todos',...new Set(PRODUCTS.map(p=>p.category))];
 const chips=document.getElementById('chips');
 categories.forEach(cat=>{const b=document.createElement('button');b.className='chip'+(cat==='Todos'?' active':'');b.textContent=cat;b.onclick=()=>{state.category=cat;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x===b));render()};chips.appendChild(b)});
-function imageFor(p){return STM_IMAGES[p.name]||state.images.get(p.name)||fallback(p.name)}
+function imageFor(p){return state.images.get(p.name)||fallback(p.name)}
 function filtered(){return PRODUCTS.filter(p=>(state.category==='Todos'||p.category===state.category)&&p.name.toLowerCase().includes(state.query.toLowerCase()))}
-function render(){const list=filtered();document.getElementById('resultCount').textContent=`${list.length} produto${list.length===1?'':'s'} no catálogo`;const grid=document.getElementById('grid');grid.innerHTML='';if(!list.length){grid.innerHTML='<div class="empty">Nenhum jogo encontrado. Tente outra busca.</div>';return}list.forEach(p=>{const card=document.createElement('article');card.className='card';card.innerHTML=`<div class="cover"><img loading="lazy" src="${imageFor(p)}" alt="Capa de ${escapeHtml(p.name)}" onerror="this.onerror=null;this.src='${fallback(p.name)}'"><span class="tag">${escapeHtml(p.category)}</span></div><div class="cardbody"><div class="cat">PC · REGIÃO BR 🇧🇷 · STEAM</div><h3>${escapeHtml(p.name)}</h3><div><span class="price">${money(price(p))}</span><span class="old">${money(p.base)}</span></div><div class="actions"><button class="details" data-detail="${escapeHtml(p.name)}">Ver detalhes</button><button class="buy" data-add="${escapeHtml(p.name)}">Adicionar</button></div></div>`;grid.appendChild(card)});grid.querySelectorAll('[data-detail]').forEach(b=>b.onclick=()=>openDetail(PRODUCTS.find(p=>p.name===b.dataset.detail)));grid.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>add(PRODUCTS.find(p=>p.name===b.dataset.add)))}
+function render(){const list=filtered();document.getElementById('resultCount').textContent=`${list.length} produto${list.length===1?'':'s'} no catálogo`;const grid=document.getElementById('grid');grid.innerHTML='';if(!list.length){grid.innerHTML='<div class="empty">Nenhum jogo encontrado. Tente outra busca.</div>';return}list.forEach(p=>{const card=document.createElement('article');card.className='card';card.innerHTML=`<div class="cover"><img loading="lazy" src="${imageFor(p)}" alt="Capa de ${escapeHtml(p.name)}" onerror="coverError(this, ${JSON.stringify(p.name).replace(/</g, '\\u003c')})"><span class="tag">${escapeHtml(p.category)}</span></div><div class="cardbody"><div class="cat">PC · REGIÃO BR 🇧🇷 · STEAM</div><h3>${escapeHtml(p.name)}</h3><div><span class="price">${money(price(p))}</span><span class="old">${money(p.base)}</span></div><div class="actions"><button class="details" data-detail="${escapeHtml(p.name)}">Ver detalhes</button><button class="buy" data-add="${escapeHtml(p.name)}">Adicionar</button></div></div>`;grid.appendChild(card)});grid.querySelectorAll('[data-detail]').forEach(b=>b.onclick=()=>openDetail(PRODUCTS.find(p=>p.name===b.dataset.detail)));grid.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>add(PRODUCTS.find(p=>p.name===b.dataset.add)))}
 document.getElementById('search').addEventListener('input',e=>{state.query=e.target.value;render()});
 async function fetchSteamJson(url){
- // A API da Steam bloqueia leituras fetch vindas de outros domínios (CORS).
- // Por isso, tentamos primeiro proxies públicos que devolvem o JSON da Steam.
- const attempts=[
-  '/api/steam?url='+encodeURIComponent(url),
-  'https://corsproxy.io/?url='+encodeURIComponent(url),
-  'https://api.allorigins.win/raw?url='+encodeURIComponent(url),
-  'https://api.allorigins.win/get?url='+encodeURIComponent(url)
- ];
- for(const target of attempts){
-  const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),7000);
-  try{
-   const r=await fetch(target,{signal:controller.signal,cache:'no-store'});
-   if(!r.ok) continue;
-   const data=await r.json();
-   if(data && typeof data==='object'){
-    if(typeof data.contents==='string'){
-     try{return JSON.parse(data.contents)}catch(e){}
+  // A função /api/steam faz a consulta à Steam pelo servidor da Vercel.
+  // Evitamos vários proxies em sequência, que deixavam as capas demorarem ou falharem.
+  try {
+    const response = await fetch('/api/steam?url=' + encodeURIComponent(url), {cache:'force-cache'});
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (error) {
+    console.warn('Não foi possível consultar a Steam:', error);
+    return null;
+  }
+}
+const imageJobs = new Map();
+function setCover(name, primary, backup=''){
+  if (!primary) return;
+  state.images.set(name, primary);
+  if (backup) state.images.set(name+'::backup', backup);
+  document.querySelectorAll('.card').forEach(card=>{
+    const title=card.querySelector('h3');
+    if (!title || title.textContent !== name) return;
+    const img=card.querySelector('img');
+    if (!img) return;
+    img.dataset.backup=backup;
+    img.dataset.fallbackUsed='';
+    img.onerror=function(){
+      if (this.dataset.backup && !this.dataset.fallbackUsed) {
+        this.dataset.fallbackUsed='1'; this.src=this.dataset.backup; return;
+      }
+      coverError(this,name);
+    };
+    img.src=primary;
+  });
+  const detailTitle=document.querySelector('#detailContent h2');
+  if(detailTitle && detailTitle.textContent===name){
+    const img=document.querySelector('#detailContent .detailhero img');
+    if(img){img.dataset.backup=backup;img.dataset.fallbackUsed='';img.onerror=function(){if(this.dataset.backup&&!this.dataset.fallbackUsed){this.dataset.fallbackUsed='1';this.src=this.dataset.backup;return;}this.onerror=null;this.src=fallback(name)};img.src=primary;}
+  }
+}
+function imageFor(p){return state.images.get(p.name)||fallback(p.name)}
+const IMAGE_SEARCH_TERMS={
+ 'LEGO Batman: Legacy of the Dark Knight':['LEGO Batman Legacy of the Dark Knight','LEGO Batman'],
+ 'Grand Theft Auto: San Andreas – The Definitive Edition':['Grand Theft Auto San Andreas Definitive Edition','Grand Theft Auto San Andreas'],
+ 'Ghost of Tsushima Director’s Cut':["Ghost of Tsushima Director's Cut",'Ghost of Tsushima'],
+ 'Poppy Playtime - Todos Capítulos':['Poppy Playtime'],
+ 'Sekiro: Shadows Die Twice - GOTY Edition':['Sekiro Shadows Die Twice'],
+ 'Horizon Forbidden West Complete Edition':['Horizon Forbidden West'],
+ 'Sons Of The Forest (Online)':['Sons Of The Forest'],
+ 'Little Nightmares Enhanced Edition':['Little Nightmares'],
+ 'Call of Duty: Advanced Warfare - Gold Edition':['Call of Duty Advanced Warfare'],
+ 'Forza Horizon 5 (Online)':['Forza Horizon 5'],
+ 'PRO EVOLUTION SOCCER 2018':['Pro Evolution Soccer 2018','PES 2018'],
+ "Tony Hawk's Pro Skater 1 + 2":["Tony Hawk's Pro Skater 1 + 2"],
+ "Tony Hawk's Pro Skater 3 + 4":["Tony Hawk's Pro Skater 3 + 4","Tony Hawk's Pro Skater 3 + 4"],
+ 'NBA 2K Playgrounds 2':['NBA 2K Playgrounds 2'],
+ 'NBA 2K23':['NBA 2K23'], 'NBA 2K22':['NBA 2K22'], 'NBA 2K21':['NBA 2K21'],
+ 'NBA 2K20':['NBA 2K20'], 'NBA 2K19':['NBA 2K19'], 'NBA 2K18':['NBA 2K18'],
+ 'LEGO 2K Drive':['LEGO 2K Drive'],
+ 'Resident Evil Collection':['Resident Evil 2'],
+ "Marvel's Spider-Man Collection":["Marvel's Spider-Man Remastered","Marvel's Spider-Man"],
+ 'Combo The Last of Us':['The Last of Us Part I'],
+ 'God of War Collection':['God of War'],
+ 'Hollow Knight Collection':['Hollow Knight'],
+ 'Dying Light Collection':['Dying Light'],
+ 'Dark Souls Collection':['DARK SOULS III']
+};
+async function loadSteamImage(p){
+  if(state.images.has(p.name) || /stm store|random key/i.test(p.name)) return;
+  if(imageJobs.has(p.name)) return imageJobs.get(p.name);
+  const job=(async()=>{
+    const norm=x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+    const terms=IMAGE_SEARCH_TERMS[p.name] || [p.name];
+    for (const term of terms){
+      const searchUrl='https://store.steampowered.com/api/storesearch/?term='+encodeURIComponent(term)+'&l=brazilian&cc=br';
+      const result=await fetchSteamJson(searchUrl);
+      if(!result || !Array.isArray(result.items) || !result.items.length) continue;
+      const wanted=norm(term);
+      const exact=result.items.find(x=>norm(x.name)===wanted);
+      const match=exact || result.items.find(x=>{const got=norm(x.name);return got.length>4&&(wanted.includes(got)||got.includes(wanted));}) || result.items[0];
+      if(!match || !match.id) continue;
+      const tiny=match.tiny_image || match.small_capsule_image || match.large_capsule_image || '';
+      const header='https://cdn.akamai.steamstatic.com/steam/apps/'+match.id+'/header.jpg';
+      setCover(p.name,header,tiny);
+      return;
     }
-    if(data.success!==undefined || data.items!==undefined || Object.keys(data).length>0) return data;
-   }
-  }catch(e){}finally{clearTimeout(timer)}
- }
- return null;
+  })();
+  imageJobs.set(p.name,job);
+  try{await job}finally{imageJobs.delete(p.name)}
 }
 async function loadSteam(p){
- if(state.details.has(p.name)||/stm store|random key|collection|combo/i.test(p.name)) return;
- const searchUrl='https://store.steampowered.com/api/storesearch/?term='+encodeURIComponent(p.name)+'&l=brazilian&cc=br';
- const j=await fetchSteamJson(searchUrl);
- if(!j||!j.items||!j.items.length) return;
- const norm=x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
- const exact=j.items.find(x=>norm(x.name)===norm(p.name));
- const match=exact||j.items.find(x=>norm(p.name).includes(norm(x.name))||norm(x.name).includes(norm(p.name)));
- // Não usar o primeiro resultado aleatório se a busca não encontrou um título compatível.
- if(!match) return;
- const img=match.header_image||match.large_capsule_image||match.small_capsule_image||match.tiny_image;
- if(img&&!STM_IMAGES[p.name]){state.images.set(p.name,img);refreshCardImage(p.name,img)}
- const d={appid:match.id,steamName:match.name,description:'',requirements:'',platform:'PC · Steam',genres:[]};
- const detailsUrl='https://store.steampowered.com/api/appdetails?appids='+match.id+'&l=brazilian&cc=br';
- const aj=await fetchSteamJson(detailsUrl);
- if(aj){const item=aj[match.id];const data=item&&item.success&&item.data;if(data){
-  d.description=(data.short_description||data.about_the_game||'').replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
-  const req=data.pc_requirements||{};
-  d.requirements=[req.minimum,req.recommended].filter(Boolean).join(' | ').replace(/<br\s*\/?\s*>/gi,' ').replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
-  d.genres=(data.genres||[]).map(x=>x.description);
-  if(data.header_image&&!STM_IMAGES[p.name]){state.images.set(p.name,data.header_image);refreshCardImage(p.name,data.header_image)}
- }}
- state.details.set(p.name,d);
- if(document.getElementById('detailModal').classList.contains('open')){const h=document.querySelector('#detailContent h2');if(h&&h.textContent===p.name)openDetail(p)}
+  await loadSteamImage(p);
+  if(state.details.has(p.name) || /stm store|random key|collection|combo/i.test(p.name)) return;
+  const searchUrl='https://store.steampowered.com/api/storesearch/?term='+encodeURIComponent(p.name)+'&l=brazilian&cc=br';
+  const j=await fetchSteamJson(searchUrl);
+  if(!j||!Array.isArray(j.items)||!j.items.length) return;
+  const norm=x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+  const wanted=norm(p.name);
+  const match=j.items.find(x=>norm(x.name)===wanted)||j.items.find(x=>{const got=norm(x.name);return got.length>4&&(wanted.includes(got)||got.includes(wanted));});
+  if(!match || !match.id) return;
+  const d={appid:match.id,steamName:match.name,description:'',requirements:'',platform:'PC · Steam',genres:[]};
+  const aj=await fetchSteamJson('https://store.steampowered.com/api/appdetails?appids='+match.id+'&l=brazilian&cc=br');
+  if(aj){const item=aj[match.id];const data=item&&item.success&&item.data;if(data){
+    d.description=(data.short_description||data.about_the_game||'').replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
+    const req=data.pc_requirements||{};
+    d.requirements=[req.minimum,req.recommended].filter(Boolean).join(' | ').replace(/<br\s*\/?\s*>/gi,' ').replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
+    d.genres=(data.genres||[]).map(x=>x.description);
+    if(data.header_image && !COVER_OVERRIDES[p.name] && !STM_IMAGES[p.name]) setCover(p.name,data.header_image,(state.images.get(p.name+'::backup')||''));
+  }}
+  state.details.set(p.name,d);
+  if(document.getElementById('detailModal').classList.contains('open')){const h=document.querySelector('#detailContent h2');if(h&&h.textContent===p.name)openDetail(p)}
 }
-function refreshCardImage(name,src){document.querySelectorAll('.card').forEach(card=>{const h=card.querySelector('h3');if(h&&h.textContent===name){const img=card.querySelector('img');if(img)img.src=src}});const title=document.querySelector('#detailContent h2');if(title&&title.textContent===name){const img=document.querySelector('#detailContent .detailhero img');if(img)img.src=src}}
-async function loadAllImages(){for(let i=0;i<PRODUCTS.length;i+=5){await Promise.all(PRODUCTS.slice(i,i+5).map(loadSteam));if(i+5<PRODUCTS.length) await new Promise(resolve=>setTimeout(resolve,120));}}
-function openDetail(p){if(!p)return;const total=price(p);const d=state.details.get(p.name)||{};const about=d.description||`${p.name} é um jogo da categoria ${p.category.toLowerCase()}. Consulte a descrição oficial na Steam para conhecer a história, a jogabilidade e os recursos disponíveis.`;const req=d.requirements||'Os requisitos mínimos e recomendados ainda não foram encontrados automaticamente. Consulte a seção de requisitos na página oficial do jogo na Steam.';document.getElementById('detailContent').innerHTML=`<div class="detailhero"><img src="${imageFor(p)}" alt="Capa de ${escapeHtml(p.name)}" onerror="this.onerror=null;this.src='${fallback(p.name)}'"><div><div class="eyebrow">${escapeHtml(p.category)}</div><h2>${escapeHtml(p.name)}</h2><p class="muted">${escapeHtml(about)}</p><div class="pricebig">${money(total)}</div><p class="muted">Estoque: 99 unidades · Garantia: 15 dias</p><button class="btn" onclick="addByName(${JSON.stringify(p.name).replace(/</g,'\\u003c')});document.getElementById('detailModal').classList.remove('open')">Adicionar ao carrinho</button></div></div><div class="infogrid"><div class="info"><h4>Sobre o jogo</h4><p>${escapeHtml(about)}</p></div><div class="info"><h4>Plataforma e região</h4><p>PC · Ativação pela Steam · Região anunciada: Brasil (BR).</p></div><div class="info"><h4>Entrega digital</h4><p>Após a confirmação do pedido, a chave será enviada pela própria loja ou para o e-mail informado na compra, conforme o fluxo de atendimento disponível.</p></div><div class="info"><h4>Garantia</h4><p>Garantia de 15 dias, conforme a política da Next Forn e as condições aplicáveis ao produto. Guarde o comprovante do pedido.</p></div><div class="info"><h4>Requisitos do sistema (Steam)</h4><p>${escapeHtml(req)}</p></div><div class="info"><h4>Perguntas frequentes</h4><p><b>É para PC?</b> Sim, as keys são ativadas pela Steam.<br><b>Funciona no Brasil?</b> Sim, os produtos são anunciados para a região Brasil (BR).<br><b>Como recebo?</b> Pelo próprio site ou por e-mail.</p></div></div>`;document.getElementById('detailModal').classList.add('open');if(!state.details.has(p.name))loadSteam(p)}
+async function loadAllImages(){
+  // Carrega em grupos pequenos para evitar limitar as consultas da Steam/Vercel.
+  for(let i=0;i<PRODUCTS.length;i+=3){
+    await Promise.all(PRODUCTS.slice(i,i+3).map(loadSteamImage));
+    if(i+3<PRODUCTS.length) await new Promise(resolve=>setTimeout(resolve,180));
+  }
+}
+function openDetail(p){if(!p)return;const total=price(p);const d=state.details.get(p.name)||{};const about=d.description||`${p.name} é um jogo da categoria ${p.category.toLowerCase()}. Consulte a descrição oficial na Steam para conhecer a história, a jogabilidade e os recursos disponíveis.`;const req=d.requirements||'Os requisitos mínimos e recomendados ainda não foram encontrados automaticamente. Consulte a seção de requisitos na página oficial do jogo na Steam.';document.getElementById('detailContent').innerHTML=`<div class="detailhero"><img src="${imageFor(p)}" alt="Capa de ${escapeHtml(p.name)}" onerror="coverError(this, ${JSON.stringify(p.name).replace(/</g, '\\u003c')})"><div><div class="eyebrow">${escapeHtml(p.category)}</div><h2>${escapeHtml(p.name)}</h2><p class="muted">${escapeHtml(about)}</p><div class="pricebig">${money(total)}</div><p class="muted">Estoque: 99 unidades · Garantia: 15 dias</p><button class="btn" onclick="addByName(${JSON.stringify(p.name).replace(/</g,'\\u003c')});document.getElementById('detailModal').classList.remove('open')">Adicionar ao carrinho</button></div></div><div class="infogrid"><div class="info"><h4>Sobre o jogo</h4><p>${escapeHtml(about)}</p></div><div class="info"><h4>Plataforma e região</h4><p>PC · Ativação pela Steam · Região anunciada: Brasil (BR).</p></div><div class="info"><h4>Entrega digital</h4><p>Após a confirmação do pedido, a chave será enviada pela própria loja ou para o e-mail informado na compra, conforme o fluxo de atendimento disponível.</p></div><div class="info"><h4>Garantia</h4><p>Garantia de 15 dias, conforme a política da Next Forn e as condições aplicáveis ao produto. Guarde o comprovante do pedido.</p></div><div class="info"><h4>Requisitos do sistema (Steam)</h4><p>${escapeHtml(req)}</p></div><div class="info"><h4>Perguntas frequentes</h4><p><b>É para PC?</b> Sim, as keys são ativadas pela Steam.<br><b>Funciona no Brasil?</b> Sim, os produtos são anunciados para a região Brasil (BR).<br><b>Como recebo?</b> Pelo próprio site ou por e-mail.</p></div></div>`;document.getElementById('detailModal').classList.add('open');if(!state.details.has(p.name))loadSteam(p)}
 document.getElementById('closeDetail').onclick=()=>document.getElementById('detailModal').classList.remove('open');document.getElementById('detailModal').onclick=e=>{if(e.target.id==='detailModal')e.currentTarget.classList.remove('open')};
 function addByName(name){add(PRODUCTS.find(p=>p.name===name))}window.addByName=addByName;
 function add(p){if(!p)return;const found=state.cart.find(x=>x.name===p.name);if(found)found.qty++;else state.cart.push({...p,qty:1});renderCart();document.getElementById('cartPanel').classList.add('open')}
