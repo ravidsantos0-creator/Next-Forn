@@ -4,444 +4,177 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Next Forn | Loja Gamer</title>
+<title>Next Forn — Jogos Digitais</title>
 <style>
-
-* {
-  box-sizing: border-box;
-}
-
-:root {
-  --bg: #080a0e;
-  --panel: #111720;
-  --panel-hover: #18212c;
-  --border: #293441;
-  --green: #b7f34a;
-  --text: #f5f7fa;
-  --muted: #a1adbd;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  background:
-    radial-gradient(ellipse at 50% -20%, #1d2a1b 0%, transparent 55%),
-    var(--bg);
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-header {
-  padding: 20px 7%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 18px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(8, 10, 14, 0.94);
-}
-
-.logo {
-  font-size: 29px;
-  font-weight: 900;
-  letter-spacing: -1.5px;
-}
-
-.logo span {
-  color: var(--green);
-}
-
-header a {
-  color: var(--green);
-  text-decoration: none;
-  font-weight: 700;
-}
-
-header a:hover {
-  color: white;
-}
-
-main {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 35px 7% 70px;
-}
-
-.hero {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  padding: clamp(32px, 6vw, 76px);
-  margin: 18px 0 58px;
-  border: 1px solid #394b32;
-  border-radius: 24px;
-  background:
-    radial-gradient(ellipse at 85% 35%, #3b6025 0%, transparent 38%),
-    linear-gradient(120deg, #151e18, #10151c 65%, #19231a);
-  box-shadow: 0 25px 70px #0005;
-}
-
-.hero::after {
-  content: "NF";
-  position: absolute;
-  z-index: -1;
-  right: 6%;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: clamp(100px, 23vw, 270px);
-  font-weight: 900;
-  letter-spacing: -18px;
-  color: #b7f34a0c;
-  pointer-events: none;
-}
-
-.hero small {
-  display: inline-block;
-  color: var(--green);
-  letter-spacing: 3px;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-h1 {
-  max-width: 750px;
-  font-size: clamp(38px, 6vw, 70px);
-  line-height: 1.05;
-  letter-spacing: -2px;
-  margin: 18px 0;
-}
-
-.hero h1 span {
-  color: var(--green);
-}
-
-p {
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.hero > p {
-  max-width: 540px;
-  font-size: 17px;
-  margin-bottom: 28px;
-}
-
-input,
-select {
-  background: #0c1118;
-  color: white;
-  border: 1px solid #344151;
-  padding: 15px 17px;
-  border-radius: 10px;
-  font-size: 15px;
-  outline: none;
-}
-
-input:focus,
-select:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px #b7f34a20;
-}
-
-#busca {
-  width: 100%;
-  max-width: 460px;
-}
-
-#catalogo h2 {
-  font-size: clamp(25px, 4vw, 34px);
-  letter-spacing: -0.8px;
-  margin-bottom: 8px;
-}
-
-#categorias {
-  display: flex;
-  gap: 9px;
-  flex-wrap: wrap;
-  margin: 24px 0;
-}
-
-button {
-  background: var(--green);
-  color: #10140a;
-  border: 1px solid transparent;
-  border-radius: 9px;
-  padding: 12px 16px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-}
-
-button:hover {
-  transform: translateY(-2px);
-}
-
-#categorias button {
-  background: #141b24;
-  color: #d9e0e8;
-  border-color: var(--border);
-}
-
-#categorias button.active {
-  background: var(--green);
-  color: #10140a;
-  border-color: var(--green);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
-  gap: 20px;
-  margin: 28px 0;
-}
-
-.card {
-  background: linear-gradient(155deg, #151d27, #0f141b);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  padding-bottom: 18px;
-  transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  border-color: #8ebd45;
-  box-shadow: 0 15px 35px #0005;
-}
-
-.art {
-  height: 155px;
-  background:
-    radial-gradient(circle at 50% 30%, #527a2a, transparent 55%),
-    linear-gradient(135deg, #222f24, #171d2b);
-  display: grid;
-  place-items: center;
-  color: var(--green);
-  font-size: 54px;
-  font-weight: 900;
-  border-bottom: 1px solid #2b3b2c;
-}
-
-.card h3,
-.card p,
-.card .price,
-.card button {
-  margin-left: 17px;
-  margin-right: 17px;
-}
-
-.card h3 {
-  min-height: 42px;
-  font-size: 17px;
-  line-height: 1.4;
-}
-
-.card .tag {
-  margin-top: 17px;
-}
-
-.tag {
-  color: var(--green);
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-}
-
-.price {
-  font-size: 23px;
-  font-weight: 900;
-  color: var(--green);
-  margin-top: 18px;
-}
-
-.card button {
-  width: calc(100% - 34px);
-  margin-top: 17px;
-}
-
-#detalhe {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  padding: clamp(20px, 4vw, 36px);
-  border-radius: 18px;
-  margin: 35px 0;
-  scroll-margin-top: 20px;
-}
-
-#detalhe h2 {
-  font-size: clamp(27px, 5vw, 42px);
-}
-
-.escondido {
-  display: none;
-}
-
-footer {
-  padding: 30px 7%;
-  border-top: 1px solid var(--border);
-  background: #07090c;
-  color: #8491a1;
-  font-size: 13px;
-}
-
-footer strong {
-  color: var(--green) !important;
-  letter-spacing: 1px;
-}
-
-footer p {
-  max-width: 700px;
-}
-
-@media (max-width: 600px) {
-  header {
-    padding: 18px 5%;
-  }
-
-  .logo {
-    font-size: 24px;
-  }
-
-  header a {
-    font-size: 13px;
-  }
-
-  main {
-    padding: 22px 5% 48px;
-  }
-
-  .hero {
-    border-radius: 16px;
-    margin-bottom: 42px;
-  }
-
-  .hero::after {
-    right: 3%;
-    opacity: 0.6;
-  }
-
-  h1 {
-    letter-spacing: -1px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .art {
-    height: 115px;
-  }
-
-  .card h3 {
-    font-size: 14px;
-    min-height: 58px;
-  }
-
-  .card h3,
-  .card p,
-  .card .price,
-  .card button {
-    margin-left: 11px;
-    margin-right: 11px;
-  }
-
-  .card button {
-    width: calc(100% - 22px);
-    padding: 11px 6px;
-    font-size: 12px;
-  }
-
-  .price {
-    font-size: 18px;
-    overflow-wrap: anywhere;
-  }
-
-  footer {
-    padding: 26px 5%;
-  }
-}
-
+:root{--g:#b7f34a;--bg:#080a08;--card:#121611;--muted:#a0a69b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
+header{position:sticky;top:0;z-index:3;background:#080a08ed;border-bottom:1px solid #283020;padding:18px 6%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:24px;font-weight:900}.logo span{color:var(--g)}
+button{cursor:pointer;border:0;border-radius:8px;padding:12px;font-weight:bold}
+.green{background:var(--g);color:#10130a}
+main{max-width:1250px;width:90%;margin:auto}
+.hero{padding:55px 0 28px}
+.tag{color:var(--g);font-size:12px;letter-spacing:2px;font-weight:bold}
+h1{font-size:clamp(36px,6vw,64px);margin:15px 0}
+h1 span{color:var(--g)}
+p{color:var(--muted);line-height:1.6}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:25px 0}
+input,select{background:#121611;color:white;border:1px solid #30392b;padding:13px;border-radius:8px}
+#q{flex:1;min-width:190px}
+.categories{display:flex;gap:8px;flex-wrap:wrap}
+.categories button{background:#171c14;color:white;border:1px solid #30392b}
+.categories .selected{border-color:var(--g);color:var(--g)}
+.heading{display:flex;justify-content:space-between;align-items:center;margin:30px 0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;margin-bottom:55px}
+.product{background:var(--card);border:1px solid #252c21;border-radius:12px;overflow:hidden}
+.product img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:#1a2116}
+.info{padding:13px}
+.info h3{font-size:15px;min-height:36px;margin:8px 0}
+.small{font-size:12px;color:var(--muted)}
+.price{color:var(--g);font-size:22px;font-weight:bold;margin:13px 0}
+.info button{width:100%}
+footer{border-top:1px solid #293024;padding:28px 6%;color:var(--muted);font-size:13px;line-height:1.7}
+#overlay{display:none;position:fixed;inset:0;background:#000b;z-index:8;justify-content:flex-end}
+#overlay.open{display:flex}
+.drawer{width:min(420px,100%);height:100%;overflow:auto;background:#10140e;padding:22px}
+.line{display:flex;justify-content:space-between;gap:10px;padding:14px 0;border-bottom:1px solid #30392b}
+@media(max-width:500px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.info{padding:9px}.info h3{font-size:13px}}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo"><span>NEXT</span> FORN</div>
-  <a href="#catalogo">Explorar jogos ↓</a>
+  <div class="logo">NEXT <span>FORN</span></div>
+  <button class="green" onclick="cartOpen(true)">Carrinho (<span id="qty">0</span>)</button>
 </header>
 <main>
-  <section class="hero">
-    <small>SUA LOJA GAMER</small>
-    <h1>Seu próximo jogo<br><span style="color:#b7f34a">está aqui.</span></h1>
-    <p>Encontre os melhores jogos e descubra sua próxima aventura na Next Forn.</p>
-    <input id="busca" placeholder="Pesquisar jogos..." oninput="renderizar()">
-  </section>
-  <section id="catalogo">
-    <h2>Explorar catálogo</h2>
-    <div id="categorias"></div>
-    <div id="jogos" class="grid"></div>
-  </section>
-  <section id="detalhe" class="escondido"></section>
+<section class="hero">
+  <div class="tag">NEXT LEVEL GAMING</div>
+  <h1>TEU PRÓXIMO JOGO.<br><span>TEU PRÓXIMO NÍVEL.</span></h1>
+  <p>Jogos digitais para quem leva o game a sério.</p>
+  <div class="tools">
+    <input id="q" placeholder="Pesquisar jogo..." oninput="render()">
+    <select id="sort" onchange="render()">
+      <option value="default">Em destaque</option>
+      <option value="low">Menor preço</option>
+      <option value="high">Maior preço</option>
+      <option value="az">Nome A–Z</option>
+    </select>
+  </div>
+  <div id="cats" class="categories"></div>
+</section>
+<div class="heading"><h2>Catálogo</h2><span id="count" class="small"></span></div>
+<section id="products" class="grid"></section>
 </main>
 <footer>
-  <strong style="color:white">NEXT FORN</strong>
- <p>Seu destino gamer: jogos, novidades e grandes aventuras. Consulte as condições antes da compra.</p>
+<strong style="color:#b7f34a">NEXT FORN</strong><br>
+Produtos digitais. Confira a plataforma e a região de ativação na página do produto antes de pagar. Compatibilidade regional depende da chave fornecida.<br>
+Os preços exibidos são definidos pela Next Forn. Compra sujeita à confirmação de disponibilidade.
 </footer>
+
+<div id="overlay" onclick="if(event.target===this)cartOpen(false)">
+ <aside class="drawer">
+  <div class="heading"><h2>Meu carrinho</h2><button onclick="cartOpen(false)">Fechar ✕</button></div>
+  <div id="items"></div>
+  <h3>Total: <span id="total" style="color:#b7f34a">R$ 0,00</span></h3>
+  <button class="green" style="width:100%" onclick="checkout()">Fazer pedido pelo WhatsApp</button>
+  <p class="small">O pedido será enviado para confirmação. O pagamento ainda precisa ser combinado com a loja.</p>
+ </aside>
+</div>
 <script>
-const lista=[
-["Red Dead Redemption 2","Ação e aventura",20.59,"Aventura de mundo aberto no Velho Oeste."],
-["Cyberpunk 2077","RPG",20.59,"RPG de ação em um futuro distópico."],
-["Forza Horizon 5","Corrida",15.59,"Corridas em mundo aberto."],
-["God of War","Ação e aventura",15.59,"Aventura de ação inspirada na mitologia nórdica."],
-["The Witcher 3: Wild Hunt","RPG",15.59,"RPG de fantasia com grandes aventuras."],
-["Elden Ring","RPG",20.59,"RPG de ação em um mundo de fantasia."],
-["Hogwarts Legacy","Ação e aventura",15.59,"Aventura em um mundo mágico."],
-["Resident Evil 4","Terror",15.59,"Ação e sobrevivência em uma experiência de horror."],
-["Black Myth: Wukong","Ação e aventura",20.59,"Aventura de ação inspirada na mitologia chinesa."],
-["Ghost of Tsushima Director's Cut","Ação e aventura",15.59,"Aventura de samurai em mundo aberto."],
-["Days Gone","Ação e aventura",15.59,"Sobrevivência em um mundo perigoso."],
-["Marvel's Spider-Man Remastered","Ação e aventura",20.59,"Aventura protagonizada pelo Homem-Aranha."],
-["Euro Truck Simulator 2","Simulação",15.59,"Simulador de caminhões."],
-["TEKKEN 8","Luta",15.59,"Jogo de luta com diversos personagens."],
-["Ready or Not","Tiro",15.59,"Jogo tático de operações policiais."],
-["NBA 2K27","Esportes",null,"Preço de referência pendente de confirmação."],
-["Forza Horizon 6","Corrida",null,"Preço de referência pendente de confirmação."]
+// IMPORTANTE: substitua pelo seu WhatsApp com código do país.
+// Exemplo de formato: 5511999999999 (somente números).
+const WHATSAPP = "55SEUNUMEROAQUI";
+
+const games = [
+ {n:"NBA 2K27",c:"Esportes",p:49.90,id:2878980},
+ {n:"Forza Horizon 6",c:"Corrida",p:49.90,id:placeholder},
+ {n:"Assassin's Creed Black Flag Resynced",c:"Ação",p:49.90,id:placeholder},
+ {n:"LEGO Batman: Legacy of the Dark Knight",c:"Ação",p:49.90,id:placeholder},
+ {n:"Resident Evil Requiem",c:"Terror",p:49.90,id:placeholder},
+ {n:"Crimson Desert",c:"RPG",p:49.90,id:placeholder},
+ {n:"007 First Light",c:"Ação",p:49.90,id:placeholder},
+ {n:"Black Myth: Wukong",c:"Ação",p:39.90,id:2358720},
+ {n:"Red Dead Redemption 2",c:"Ação",p:39.90,id:1174180},
+ {n:"SILENT HILL: Townfall",c:"Terror",p:39.90,id:placeholder},
+ {n:"CONTROL Resonant",c:"Ação",p:39.90,id:placeholder},
+ {n:"Assassin's Creed Shadows",c:"Ação",p:39.90,id:3159330},
+ {n:"UNCHARTED: Coleção Legado dos Ladrões",c:"Aventura",p:39.90,id:1659420},
+ {n:"Grand Theft Auto V",c:"Ação",p:39.90,id:271590},
+ {n:"The Witcher 3: Wild Hunt",c:"RPG",p:29.90,id:292030},
+ {n:"Ghost of Tsushima Director's Cut",c:"Ação",p:29.90,id:2215430},
+ {n:"Days Gone",c:"Ação",p:29.90,id:1259420},
+ {n:"Lies of P",c:"RPG",p:29.90,id:1627720},
+ {n:"Subnautica",c:"Aventura",p:29.90,id:264710},
+ {n:"Cuphead",c:"Indie",p:29.90,id:268910},
+ {n:"Raft",c:"Aventura",p:29.90,id:648800},
+ {n:"Project Zomboid",c:"Simulação",p:29.90,id:108600},
+ {n:"Schedule I",c:"Simulação",p:29.90,id:3164500},
+ {n:"Devil May Cry 5",c:"Ação",p:29.90,id:601150},
+ {n:"Hollow Knight",c:"Indie",p:29.90,id:367520},
+ {n:"Stray",c:"Aventura",p:29.90,id:1332010},
+ {n:"Ready or Not",c:"Tiro",p:29.90,id:1144200},
+ {n:"Call of Duty: Black Ops III",c:"Tiro",p:29.90,id:311210},
+ {n:"Battlefield V",c:"Tiro",p:29.90,id:1238810},
+ {n:"S.T.A.L.K.E.R. 2",c:"Tiro",p:29.90,id:1643320},
+ {n:"HITMAN World of Assassination",c:"Tiro",p:29.90,id:1659040},
+ {n:"Euro Truck Simulator 2",c:"Simulação",p:19.90,id:227300},
+ {n:"Assetto Corsa",c:"Corrida",p:19.90,id:244210},
+ {n:"Terraria",c:"Aventura",p:19.90,id:105600},
+ {n:"Left 4 Dead 2",c:"Tiro",p:19.90,id:550},
+ {n:"Portal 2",c:"Aventura",p:19.90,id:620},
+ {n:"Among Us",c:"Indie",p:19.90,id:945360},
+ {n:"The Forest",c:"Terror",p:19.90,id:242760},
+ {n:"Satisfactory",c:"Simulação",p:29.90,id:526870},
+ {n:"Mafia: Definitive Edition",c:"Ação",p:29.90,id:1030840}
 ];
-let categoria="Todos";
-const dinheiro=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-function preco(g){return g[2]===null?"Preço em atualização":dinheiro(Math.round(g[2]*2*1.12*100)/100)}
-function categorias(){
- let cats=["Todos",...new Set(lista.map(g=>g[1]))];
- document.getElementById("categorias").innerHTML=cats.map(c=>`<button class="${categoria===c?"active":""}" onclick="categoria='${c}';categorias();renderizar()">${c}</button>`).join("");
+
+// "placeholder" significa que a capa/ID ainda precisa ser verificado.
+let active="Todos", cart=[];
+const brl=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+
+function renderCats(){
+ const names=["Todos",...new Set(games.map(g=>g.c))];
+ document.getElementById("cats").innerHTML=names.map(c=>
+ `<button class="${c===active?"selected":""}" onclick="active=${JSON.stringify(c)};render()">${c}</button>`
+ ).join("");
 }
-function renderizar(){
- let q=document.getElementById("busca").value.toLowerCase();
- let jogos=lista.filter(g=>(categoria==="Todos"||g[1]===categoria)&&g[0].toLowerCase().includes(q));
- document.getElementById("jogos").innerHTML=jogos.map((g,i)=>`
- <article class="card">
- <div class="art">✦</div>
- <p class="tag">${g[1]}</p><h3>${g[0]}</h3>
- <div class="price">${preco(g)}</div>
- <button onclick="abrir(${lista.indexOf(g)})">Ver detalhes</button>
- </article>`).join("");
+function render(){
+ renderCats();
+ let arr=games.filter(g=>(active==="Todos"||g.c===active)&&g.n.toLowerCase().includes(document.getElementById("q").value.toLowerCase()));
+ const s=document.getElementById("sort").value;
+ if(s==="low")arr.sort((a,b)=>a.p-b.p);
+ if(s==="high")arr.sort((a,b)=>b.p-a.p);
+ if(s==="az")arr.sort((a,b)=>a.n.localeCompare(b.n));
+ document.getElementById("count").textContent=arr.length+" jogos";
+ document.getElementById("products").innerHTML=arr.map(g=>{
+ const image=typeof g.id==="number"?`https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${g.id}/library_600x900.jpg`:"https://placehold.co/400x550/111611/b7f34a?text=CAPA+EM+ATUALIZACAO";
+ return `<article class="product">
+ <img src="${image}" alt="${g.n}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x550/111611/b7f34a?text=NEXT+FORN'">
+ <div class="info"><span class="small">${g.c}</span><h3>${g.n}</h3>
+ <div class="small">PC · Região: confirmar antes da compra</div>
+ <div class="price">${brl(g.p)}</div>
+ <button class="green" onclick="add('${g.n.replace(/'/g,"\\'")}')">Adicionar ao carrinho</button>
+ </div></article>`;
+ }).join("");
 }
-function abrir(i){
- let g=lista[i],d=document.getElementById("detalhe");
- d.classList.remove("escondido");
- d.innerHTML=`<button onclick="document.getElementById('detalhe').classList.add('escondido')">← Voltar</button>
- <p class="tag">${g[1]}</p><h2>${g[0]}</h2><div class="price">${preco(g)}</div>
- <p>${g[3]}</p><h3>Antes de comprar</h3>
- <p>Confirme a plataforma, região, versão e disponibilidade do produto antes de efetuar a compra.</p>
- <p>Pagamento e entrega ainda não estão disponíveis neste protótipo.</p>`;
- d.scrollIntoView({behavior:"smooth"});
+function add(name){const g=games.find(x=>x.n===name);if(g){cart.push(g);updateCart();}}
+function removeItem(i){cart.splice(i,1);updateCart();}
+function updateCart(){
+ document.getElementById("qty").textContent=cart.length;
+ document.getElementById("items").innerHTML=cart.length?cart.map((g,i)=>`<div class="line"><span>${g.n}<br><b>${brl(g.p)}</b></span><button onclick="removeItem(${i})">Remover</button></div>`).join(""):"<p>Teu carrinho está vazio.</p>";
+ document.getElementById("total").textContent=brl(cart.reduce((s,g)=>s+g.p,0));
 }
-categorias();renderizar();
+function cartOpen(open){document.getElementById("overlay").classList.toggle("open",open);}
+function checkout(){
+ if(!cart.length){alert("Adicione um jogo ao carrinho primeiro.");return;}
+ if(!/^55\d{10,11}$/.test(WHATSAPP)){alert("Configure o número do WhatsApp no código antes de publicar.");return;}
+ const lines=cart.map(g=>`- ${g.n}: ${brl(g.p)}`).join("\n");
+ const total=brl(cart.reduce((s,g)=>s+g.p,0));
+ const msg=`Olá, Next Forn! Quero consultar disponibilidade destes jogos:\n${lines}\nTotal anunciado: ${total}\nConfirmem a região de ativação e as condições, por favor.`;
+ window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
+}
+render();updateCart();
 </script>
 </body>
 </html>
