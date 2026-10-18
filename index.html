@@ -15,14 +15,56 @@ const price=p=>Math.round((p.base*2.24+Number.EPSILON)*100)/100;
 const slug=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').toLowerCase();
 const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fallback=(name)=>'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#182d29"/><stop offset="1" stop-color="#111626"/></linearGradient></defs><rect width="640" height="360" fill="url(#g)"/><circle cx="520" cy="65" r="115" fill="#77f04b" opacity=".13"/><path d="M0 300 L220 180 L340 270 L470 130 L640 250 V360 H0Z" fill="#77f04b" opacity=".10"/><text x="32" y="280" fill="#77f04b" font-family="Arial" font-weight="bold" font-size="18">NEXT FORN • GAMING</text><foreignObject x="32" y="70" width="570" height="170"><div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial,sans-serif;font-weight:900;font-size:34px;line-height:1.1;color:#fff">${escapeHtml(name)}</div></foreignObject></svg>`);
-const STM_IMAGES={
- 'Forza Horizon 6':'https://cdn.selltrust.com.br/store/9b676d2d-0dfe-4c78-a054-b7a84fb591fd/product/713103fe-e138-475e-b1be-0a7bbcdd234d.jpg'
+
+const STM_IMAGES = {
+  'Forza Horizon 6': 'https://cdn.selltrust.com.br/store/9b676d2d-0dfe-4c78-a054-b7a84fb591fd/product/713103fe-e138-475e-b1be-0a7bbcdd234d.jpg'
 };
-const state={category:'Todos',query:'',cart:[],images:new Map(Object.entries(STM_IMAGES)),details:new Map()};
+
+const COVER_OVERRIDES = {
+  'LEGO Batman: Legacy of the Dark Knight': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2130130/header.jpg',
+  'Grand Theft Auto: San Andreas – The Definitive Edition': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1547000/header.jpg',
+  'Ghost of Tsushima Director’s Cut': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2215430/header.jpg',
+  'Poppy Playtime - Todos Capítulos': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1721470/header.jpg',
+  'Sekiro: Shadows Die Twice - GOTY Edition': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/814380/header.jpg',
+  'Horizon Forbidden West Complete Edition': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2420110/header.jpg',
+  'Sons Of The Forest (Online)': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1326470/header.jpg',
+  'Little Nightmares Enhanced Edition': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/424840/header.jpg',
+  'Call of Duty: Advanced Warfare - Gold Edition': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/209650/header.jpg',
+  'Forza Horizon 5 (Online)': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1551360/header.jpg',
+  'PRO EVOLUTION SOCCER 2018': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/592580/header.jpg',
+  "Tony Hawk's Pro Skater 1 + 2": 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2395210/header.jpg',
+  "Tony Hawk's Pro Skater 3 + 4": 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2543260/header.jpg',
+  'NBA 2K Playgrounds 2': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/705040/header.jpg',
+  'NBA 2K23': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1919590/header.jpg',
+  'NBA 2K22': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1644960/header.jpg',
+  'NBA 2K21': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1225330/header.jpg',
+  'NBA 2K20': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1089350/header.jpg',
+  'NBA 2K19': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/841370/header.jpg',
+  'NBA 2K18': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/577800/header.jpg',
+  'LEGO 2K Drive': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1451810/header.jpg',
+  'Resident Evil Collection': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/883710/header.jpg',
+  "Marvel's Spider-Man Collection": 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1817070/header.jpg',
+  'Combo The Last of Us': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1888930/header.jpg',
+  'God of War Collection': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/header.jpg',
+  'Hollow Knight Collection': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/367520/header.jpg',
+  'Dying Light Collection': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239140/header.jpg',
+  'Dark Souls Collection': 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/374320/header.jpg'
+};
+
+const state = {
+  category: 'Todos',
+  query: '',
+  cart: [],
+  images: new Map(Object.entries({ ...STM_IMAGES, ...COVER_OVERRIDES })),
+  details: new Map()
+};
+
 const categories=['Todos',...new Set(PRODUCTS.map(p=>p.category))];
 const chips=document.getElementById('chips');
 categories.forEach(cat=>{const b=document.createElement('button');b.className='chip'+(cat==='Todos'?' active':'');b.textContent=cat;b.onclick=()=>{state.category=cat;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x===b));render()};chips.appendChild(b)});
-function imageFor(p){return STM_IMAGES[p.name]||state.images.get(p.name)||fallback(p.name)}
+function imageFor(p){
+  return state.images.get(p.name) || fallback(p.name);
+}
 function filtered(){return PRODUCTS.filter(p=>(state.category==='Todos'||p.category===state.category)&&p.name.toLowerCase().includes(state.query.toLowerCase()))}
 function render(){const list=filtered();document.getElementById('resultCount').textContent=`${list.length} produto${list.length===1?'':'s'} no catálogo`;const grid=document.getElementById('grid');grid.innerHTML='';if(!list.length){grid.innerHTML='<div class="empty">Nenhum jogo encontrado. Tente outra busca.</div>';return}list.forEach(p=>{const card=document.createElement('article');card.className='card';card.innerHTML=`<div class="cover"><img loading="lazy" src="${imageFor(p)}" alt="Capa de ${escapeHtml(p.name)}" onerror="this.onerror=null;this.src='${fallback(p.name)}'"><span class="tag">${escapeHtml(p.category)}</span></div><div class="cardbody"><div class="cat">PC · REGIÃO BR 🇧🇷 · STEAM</div><h3>${escapeHtml(p.name)}</h3><div><span class="price">${money(price(p))}</span><span class="old">${money(p.base)}</span></div><div class="actions"><button class="details" data-detail="${escapeHtml(p.name)}">Ver detalhes</button><button class="buy" data-add="${escapeHtml(p.name)}">Adicionar</button></div></div>`;grid.appendChild(card)});grid.querySelectorAll('[data-detail]').forEach(b=>b.onclick=()=>openDetail(PRODUCTS.find(p=>p.name===b.dataset.detail)));grid.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>add(PRODUCTS.find(p=>p.name===b.dataset.add)))}
 document.getElementById('search').addEventListener('input',e=>{state.query=e.target.value;render()});
@@ -63,7 +105,7 @@ async function loadSteam(p){
  // Não usar o primeiro resultado aleatório se a busca não encontrou um título compatível.
  if(!match) return;
  const img=match.header_image||match.large_capsule_image||match.small_capsule_image||match.tiny_image;
- if(img&&!STM_IMAGES[p.name]){state.images.set(p.name,img);refreshCardImage(p.name,img)}
+if(data.header_image&&!COVER_OVERRIDES[p.name]&&!STM_IMAGES[p.name]){state.images.set(p.name,img);refreshCardImage(p.name,img)}
  const d={appid:match.id,steamName:match.name,description:'',requirements:'',platform:'PC · Steam',genres:[]};
  const detailsUrl='https://store.steampowered.com/api/appdetails?appids='+match.id+'&l=brazilian&cc=br';
  const aj=await fetchSteamJson(detailsUrl);
