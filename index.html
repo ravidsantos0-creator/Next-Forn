@@ -219,8 +219,8 @@ document.getElementById('openAdmin').onclick=()=>{document.getElementById('admin
 document.getElementById('closeAdmin').onclick=()=>document.getElementById('adminModal').classList.remove('open');
 document.getElementById('adminModal').onclick=e=>{if(e.target.id==='adminModal')e.currentTarget.classList.remove('open')};
 // Configure these two public project values after creating your Supabase project.
-const SUPABASE_URL='COLE_AQUI_A_URL_DO_SEU_PROJETO_SUPABASE';
-const SUPABASE_ANON_KEY='COLE_AQUI_A_CHAVE_ANON_PUBLIC_DO_SUPABASE';
+const SUPABASE_URL='https://xamiggemcofvqbxcaqip.supabase.co/rest/v1/';
+const SUPABASE_ANON_KEY='sb_publishable_6M8GOpP3av4YOxGKfk9baw_Gk9Frtd1';
 const sbReady=!!(window.supabase&&SUPABASE_URL.startsWith('https://')&&!SUPABASE_URL.includes('COLE_AQUI')&&SUPABASE_ANON_KEY.length>30&&!SUPABASE_ANON_KEY.includes('COLE_AQUI'));
 const sb=sbReady?window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
 let adminUser=null;
